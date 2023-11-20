@@ -21,7 +21,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let data of nzTable.data">
-        <td>{{ data.nombre_completo}}</td>
+        <td>{{ data.nombre}}{{data.apellido}}</td>
         <td>
           <button type="button" class="btn btnc btn-primary" data-bs-toggle="modal"
           (click)="descripcion(data.id_usuario)"
