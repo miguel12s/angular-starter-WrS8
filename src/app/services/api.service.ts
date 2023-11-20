@@ -5,7 +5,7 @@ import { Estudiante } from "../shared/interfaces/Estudiante.interface";
 import { Router } from "@angular/router";
 import { ComponentService } from "../components/services/components.service";
 import { Docente } from "../shared/interfaces/docente.interface";
-import { environment } from "src/environment/environment.prod";
+import { environment } from "src/environment/environment";
 import { Contact } from "../shared/interfaces/contact.interface";
 @Injectable()
 export class ApiService {
