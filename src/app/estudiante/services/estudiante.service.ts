@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ResolveEnd } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 import { ComponentService } from 'src/app/components/services/components.service';
 import { ApiService } from 'src/app/services/api.service';

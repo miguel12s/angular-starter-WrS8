@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router } from '@angular/router'
 import { tap,map } from 'rxjs';
 import { ComponentService } from 'src/app/components/services/components.service';
 import { ApiService } from 'src/app/services/api.service';

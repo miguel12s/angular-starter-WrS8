@@ -1,4 +1,4 @@
 export const environment={
-    production:true,
+    production:false,
     apiUrl:"https://fastapi-dyl9-production.up.railway.app/"
 }
