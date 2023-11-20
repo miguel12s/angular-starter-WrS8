@@ -1,0 +1,152 @@
+<h5 class="text-center">PERFIL DEL ESTUDIANTE</h5>
+<form class="row" [formGroup]="contactForm" (ngSubmit)="onSubmit($event)">
+    <div class="col-md-4 text-center d-flex align-items-center ">
+        <div>
+            <img   [src]="foto" class="img"
+                 />
+            <div class="container-button d-flex">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    data-bs-whatever="@mdo" >Cambiar foto</button>
+            </div>
+            
+
+        </div>
+    </div>
+
+
+    <div class="col-md-4 mt-2">
+        <div class="form-group">
+            <label for="nombre"><b>Nombres</b></label>
+            <input required class="form-control" formControlName="nombres" type="text" name="nombre" id="nombre"
+                readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="tipo"><b>Tipo de documento</b></label>
+            <input required class="form-control" formControlName="tipoDocumento" type="text" name="tipo" id="tipo" readonly />
+
+        </div>
+
+        <div class="form-group">
+            <label for="facultad"><b>Facultad</b></label>
+            <input required class="form-control" formControlName="facultad" type="text" name="facultad" id="facultad"
+                readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="correo"><b>Correo</b></label>
+            <input class="form-control" type="email" name="correo" id="correo" formControlName="correo" readonly />
+
+        </div>
+    </div>
+
+    <div class="col-md-4 mt-2">
+        <div class="form-group">
+            <label for="apellido"><b>Apellidos</b></label>
+            <input class="form-control" type="text" name="apellido" id="apellido" formControlName="apellidos" readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="tipo"><b>Numero de documento</b></label>
+            <input name="numeroDocumento" formControlName="numeroDocumento" id="numeroDocumento" type="number"
+                class="form-control" readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="programa"><b>Programa perteneciente</b></label>
+            <input name="programa" formControlName="programa" id="programa" type="text" class="form-control" readonly />
+        </div>
+
+        <div class="form-group">
+            <label for="telefonocelular"><b>Telefono celular</b></label>
+            <input name="telefonocelular" formControlName="numeroTelefono" id="telefonocelular" type="number"
+                class="form-control" readonly />
+        </div>
+    </div>
+
+    <div class="container-button d-md-flex justify-content-md-center">
+        <button type="button btn-primary " class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#staticBackdrop">
+            Cambiar contraseña
+        </button>
+    </div>
+
+</form>
+
+<!-- modal para cambio de contraseña-->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Cambiar contraseña de usuario</b></h1>
+            </div>
+            <div class="modal-body ">
+                <form class="row justify-content-md-center" [formGroup]="passwordForm" (ngSubmit)="cambiarPassword()" >
+                    <div class="col-md-10">
+                        <div class="mb-2">
+                            <label for="contraseña_actual" class="form-label"><b>Contraseña actual</b></label>
+                            <input type="password" class="form-control" id="contraseña_actual"
+                            formControlName="contraseña"
+                                aria-describedby="contraseña actual" [required]="true">
+                        </div>
+                        <nz-alert nzType="error" nzMessage="La contraseña actual no se encuentra en el sistema" *ngIf="alertPasswordBd" nzShowIcon></nz-alert>
+
+                        <div class="mb-2">
+                            <label for="nueva_contraseña" class="form-label"><b>Nueva contraseña</b></label>
+                            <input type="password" class="form-control" id="nueva_contraseña"
+                            formControlName="nuevaContraseña"
+                                aria-describedby="nueva contraseña" [required]="true">
+                        </div>
+                        <div class="mb-2">
+                            <label for="confirmar_contraseña" class="form-label"><b>Confirmar contraseña</b></label>
+                            <input type="password" class="form-control" id="confirmar_contraseña"
+                                aria-describedby="confirmar contraseña" formControlName="confirmarContraseña">
+                        </div>
+                        <!-- <div *ngIf="showAlertPassword" class="alert alert-danger">
+                            las contraseñas no son iguales
+                        </div> -->
+
+                        <nz-alert nzType="error" nzMessage="Las contraseñas deben coincidir" *ngIf="showAlertPassword" nzShowIcon></nz-alert>
+                        <nz-alert nzType="success" *ngIf="alertSuccess" nzMessage="la contraseña ha sido cambiada "  nzShowIcon></nz-alert>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="linea btn btn-danger btn-sm" data-bs-dismiss="modal">Salir</button>
+                        <button type="submit" class="linea btn btn-success btn-sm" [disabled]="passwordForm.invalid">Cambiar</button>
+                    </div>
+                </form>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+
+<!-- modal para cambio de foto-->
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"><b>Cambiar foto</b></h1>
+            </div>
+            <div class="modal-body">
+                <form  >
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label"><b>Imagen</b></label>
+                        <input  (change)="subirFoto($event)" type="file" class="form-control" id="upload-file" >
+                    </div>
+
+
+
+                    <div class="modal-footer d-flex">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                            Salir
+                          </button>
+                        <button type="button" (click)="subirImagen()"  class="btn btn-success">Cambiar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

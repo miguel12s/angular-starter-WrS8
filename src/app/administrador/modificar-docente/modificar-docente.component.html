@@ -1,0 +1,205 @@
+<h5 class="text-center">ADMINISTRAR FACULTADES DE USUARIOS</h5>
+
+<div class="add-user d-flex justify-content-end mb-3">
+  <button type="button" class="btn btnfunciones d-flex justify-space-between align-items-center gap-3"
+    data-bs-toggle="modal" data-bs-target="#modalagregar">Agregar Facultad <span style="font-size: 18px;" nz-icon
+      nzType="user-add" nzTheme="outline"></span></button>
+</div>
+
+<div class="table-responsive">
+  <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed" [nzPageSize]="4">
+    <thead>
+      <tr>
+        <th nzCustomFilter>
+          Nombre completo
+          <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+            <span nz-icon nzType="search">Buscar </span>
+          </nz-filter-trigger>
+        </th>
+        <th>Ver información</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of nzTable.data">
+        <td>{{ data.nombre_completo}}</td>
+        <td>
+          <button type="button" class="btn btnc btn-primary" data-bs-toggle="modal"
+          (click)="descripcion(data.id_usuario)"
+            data-bs-target="#modaldescripcion">Ver</button>
+        </td>
+        
+
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+      <div class="search-box">
+        <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue" />
+        <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+        <button nz-button nzSize="small" (click)="reset()">Reset</button>
+      </div>
+    </div>
+  </nz-dropdown-menu>
+
+  <!-- Modal -->
+
+  <div class="modal fade modal-lg" id="modalagregar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Agregar Facultad Usuario</b></h1>
+        </div>
+        <div class="modal-body">
+          <form class="row" [formGroup]="facultadForm" (ngSubmit)="onSubmit()">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="usuario" class="form-label"><b>Usuario</b></label>
+                <select formControlName="usuario" class="form-control" id="usuario" autocomplete="off"
+                  required>
+
+<option value="{{usuario.nombre}}-{{usuario.id}}" *ngFor="let usuario of usuarios">{{usuario.nombre}}-{{usuario.id}}</option>
+
+                  </select>
+
+                </div>
+
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="facultad" class="form-label"><b>Facultad</b></label>
+                <select (change)="onChange($event)" name="" class="form-control" formControlName="facultad" id="">
+                  <option [value]="facultad.facultad" *ngFor="let facultad of facultades">{{facultad.facultad}}</option>
+                </select>
+
+              </div>
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="programa" class="form-label"><b>Programa</b></label>
+                <select name="" class="form-control" formControlName="programa" id="">
+                  <option [value]="programa.programa" *ngFor="let programa of programas">{{programa.programa}}</option>
+                </select>
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="linea btn bmodal btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="linea btn bmodal btn-success btn-sm">Guardar</button>
+            </div>
+  
+
+          </form>
+
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade modal-lg" id="modificar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Modificar Facultades Usuario</b></h1>
+        </div>
+        <div class="modal-body">
+          <form class="row" [formGroup]="facultadFormTwo" (ngSubmit)="actualizar()">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="usuario" class="form-label"><b>Usuario</b></label>
+                <input type="text" readonly formControlName="usuario" class="form-control" id="usuario" autocomplete="off"
+                  required>
+              </div>
+
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="facultad" class="form-label"><b>Facultad</b></label>
+                <select (change)="onChanges($event)" name="" class="form-control" formControlName="facultad" id="">
+                  <option [value]="facultad.facultad" *ngFor="let facultad of facultades">{{facultad.facultad}}</option>
+                </select>
+
+              </div>
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="programa" class="form-label"><b>Programa</b></label>
+                <select name="" class="form-control" formControlName="programa" id="">
+                  <option [value]="programa.programa" *ngFor="let programa of programas2">{{programa.programa}}</option>
+                </select>
+
+              </div>
+            </div>
+            <input type="hidden" formControlName="id_usuario">
+
+            <div class="modal-footer">
+              <button type="button" class="linea btn bmodal btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="linea btn bmodal btn-success btn-sm">Guardar</button>
+            </div>
+          </form>
+
+         
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+   <!--modal de materias del usuario-->
+   <div class="modal fade modal-lg" id="modaldescripcion" data-bs-backdrop="static" data-bs-keyboard="false"
+   tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-scrollable">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Facultad Y Programas Del Usuario</b>
+         </h1>
+         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Salir</button>
+       </div>
+       <div class="modal-body">
+         <form class="row" [formGroup]="facultadForm">
+           <div class="table-responsive">
+             <nz-table [nzData]="facultadxprograma"  nzTableLayout="fixed">
+               <thead>
+                 <tr>
+                   <th>Facultad</th>
+                   <th>Programa</th>
+                   <th>Modificar</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 <tr *ngFor="let facultad of facultadxprograma">
+                   <td>{{facultad.facultad}}</td>
+                   <td>{{facultad.programa}}</td>
+                   <td>
+                    <button type="button" class="btn btnc btn-primary" data-bs-toggle="modal"
+                      data-bs-target="#modificar" (click)="modificar(facultad.id)">Modificar</button>
+                  </td>
+                  
+                  
+                  </tr>
+               </tbody>
+             </nz-table>
+           </div>
+         </form>
+       </div>
+
+     </div>
+   </div>
+ </div>
+
+</div>

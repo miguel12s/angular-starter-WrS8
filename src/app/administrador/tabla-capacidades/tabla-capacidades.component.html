@@ -1,0 +1,119 @@
+<h5 class="text-center">ADMINISTRAR TABLA DE CAPACIDADES</h5>
+<div class="container-button d-flex justify-content-end m-1">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btnc btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Agregar
+    </button>
+</div>
+<div class="table-responsive">
+    <nz-table #nzTable [nzData]="capacidades" [nzPageSize]="4" nzTableLayout="fixed">
+        <thead>
+            <tr>
+                <th >
+                    Id capacidad
+                    
+                </th>
+                <th nzCustomFilter>Capacidad
+
+
+                    <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
+                        [nzDropdownMenu]="menu">
+                        <span nz-icon nzType="search">Buscar </span>
+                    </nz-filter-trigger>
+                </th>
+                <th>Modificar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of nzTable.data">
+                <td>{{ data.id}}</td>
+                <td>{{ data.capacidad}}</td>
+                <td><button type="button" class="btn btnc btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#modalmodificar"
+                        
+                        (click)="modificar(data.id)"
+                        >
+                        Modificar
+                    </button></td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+            <div class="search-box">
+                <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue" />
+                <button nz-button nzSize="small" nzType="primary" (click)="search()"
+                    class="search-button">Buscar</button>
+                <button nz-button nzSize="small" (click)="reset()">Reset</button>
+            </div>
+        </div>
+    </nz-dropdown-menu>
+
+    <!-- Modal crear -->
+    <div class="modal fade modal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Agregar capacidad en la tabla de capacidades</b></h1>
+                </div>
+                <div class="modal-body">
+                    <form class="row d-flex justify-content-center" [formGroup]="capacidadAgregar" (ngSubmit)="agregar()">
+                        <div class="col-md-5 ">
+                            <div class="mb-4">
+                                <label for="capacidad" class="form-label"><b>Capacidad</b> </label>
+                                <input type="text" formControlName="capacidad" class="form-control" id="capacidad" aria-describedby="capacidad" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="linea btn bmodal btn-danger btn-sm"
+                                data-bs-dismiss="modal">Salir</button>
+                            <button type="submit" class="linea btn bmodal btn-success btn-sm">Agregar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- modal modificar datos-->
+    <div class="modal fade modal" id="modalmodificar" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Modificar datos de la tabla de capacidades</b></h1>
+                </div>
+                <div class="modal-body">
+                    <form class="row d-flex justify-content-center" [formGroup]="capacidadForm" (ngSubmit)="onSubmit()">
+                        <div class="col-md-5">
+                            <div class="mb-4">
+                                <label for="id_capacidad" class="form-label"><b>Id capacidad</b> </label>
+                                <input type="number" class="form-control" id="id_capacidad"
+                                formControlName="id_capacidad"
+                                aria-describedby="id_capacidad" autocomplete="off" readonly>
+                            </div>
+                            <div class="mb-4">
+                                <label for="capacidad" class="form-label"><b>Capacidad</b> </label>
+                                <input type="text" class="form-control" 
+                                formControlName="capacidad"
+                                id="capacidad" aria-describedby="capacidad" autocomplete="off">
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="linea btn bmodal btn-danger btn-sm"
+                                data-bs-dismiss="modal">Salir</button>
+                            <button type="submit" class="linea btn bmodal btn-success btn-sm">Modificar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

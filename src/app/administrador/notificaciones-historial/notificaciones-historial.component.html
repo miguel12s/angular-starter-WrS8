@@ -1,0 +1,99 @@
+<h5 class="text-center">HISTORIAL DE CONTACTENOS</h5>
+<div class="table-responsive">
+    <nz-table #nzTable [nzData]="data" nzTableLayout="fixed" [nzPageSize]="4">
+        <thead>
+            <tr>
+                <th nzCustomFilter>
+                    <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
+                        [nzDropdownMenu]="menu">
+                        <span nz-icon nzType="search">Buscar </span>
+                    </nz-filter-trigger>
+                    Nombre Completo
+
+                </th>
+                <th>Correo</th>
+                <th>Celular</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of nzTable.data">
+
+                <td>{{data.nombre_completo}}</td>
+                <td>{{ data.correo}}</td>
+                <td>{{ data.celular}}</td>
+                <td><button type="button" class="btn btnc btn-primary" data-bs-toggle="modal"
+                        (click)="listado(data.id)" data-bs-target="#modallista">
+                        Responder
+                    </button></td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+            <div class="search-box">
+                <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue" />
+                <button nz-button nzSize="small" nzType="primary" (click)="search()"
+                    class="search-button">Buscar</button>
+                <button nz-button nzSize="small" (click)="reset()">Reset</button>
+            </div>
+        </div>
+    </nz-dropdown-menu>
+
+    <!-- modal lista estudiantes-->
+    <div class="modal fade modal-lg" id="modallista" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Responder A Remitente</b>
+                    </h1>
+                    <button type="button" class="btn btn-danger btn-md" data-bs-dismiss="modal">
+                        Salir
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="row" [formGroup]="notificationForm">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="nombres" class="form-label"><b>Nombre Completo</b></label>
+                                    <input type="text" formControlName="nombre_completo" class="form-control" id="nombres"
+                                        autocomplete="off" readonly>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="correo" class="form-label"><b>Correo</b></label>
+                                <input type="text" formControlName="correo" class="form-control" id="correo"
+                                    autocomplete="off" readonly>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="celular" class="form-label"><b>Celular</b></label>
+                                <input type="text" formControlName="celular" class="form-control" id="celular"
+                                    autocomplete="off" readonly>
+                            </div>                        
+
+                            <div class="form-group col-md-6">
+                                <label for="msj_remitente"><b>Mensaje Del Remitente</b></label>
+                                <textarea formControlName="mensaje" name="msj_remitente" class="msj_remitente" col="2"
+                                    rows="4" id="mensaje" readonly></textarea>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="msj_remitente"><b>Respuesta</b></label>
+                                <textarea formControlName="respuesta" name="msj_remitente" class="msj_remitente" col="2"
+                                    rows="4" id="mensaje" readonly></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

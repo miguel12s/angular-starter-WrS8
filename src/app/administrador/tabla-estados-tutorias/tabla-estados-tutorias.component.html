@@ -1,0 +1,131 @@
+<h5 class="text-center">ADMINISTRAR TABLA DE TIPOS X ESTADO</h5>
+<div class="container-button d-flex justify-content-end m-1">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btnc btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+        Agregar
+    </button>
+</div>
+<div class="table-responsive">
+    <nz-table #nzTable [nzData]="estadoTutorias" nzTableLayout="fixed" [nzPageSize]="4">
+        <thead>
+            <tr>
+                <th>
+                    Id estado
+
+
+                </th>
+                <th nzCustomFilter>Estado
+                    <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0"
+                        [nzDropdownMenu]="menu">
+                        <span nz-icon nzType="search">Buscar </span>
+                    </nz-filter-trigger>
+                </th>
+                <th>estado</th>
+                <th>Modificar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of nzTable.data">
+                <td>{{ data.id}}</td>
+                <td>{{ data.tipoxestado}}</td>
+                <td>{{ data.estado}}</td>
+
+                <td><button type="button" class="btn btnc btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#modalmodificar" (click)="modificar(data.id)">
+                        Modificar
+
+                    </button></td>
+            </tr>
+        </tbody>
+    </nz-table>
+
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+            <div class="search-box">
+                <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue" />
+                <button nz-button nzSize="small" nzType="primary" (click)="search()"
+                    class="search-button">Buscar</button>
+                <button nz-button nzSize="small" (click)="reset()">Reset</button>
+            </div>
+        </div>
+    </nz-dropdown-menu>
+
+    <!-- Modal crear -->
+    <div class="modal fade modal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Agregar estado en la tabla de
+                            Tipo x Estado</b></h1>
+                </div>
+                <div class="modal-body">
+                    <form class="row d-flex justify-content-center" [formGroup]="estadoTutoriaAgregar"
+                        (ngSubmit)="agregar()">
+                        <div class="col-md-5 ">
+                            <div class="mb-4">
+                                <label for="estado_tutoria" class="form-label"><b>Tipo de Estado</b> </label>
+                                <select class="form-control" formControlName="tipoxestado">
+                                    <option [value]="tipo.tipoEstado" *ngFor="let tipo of tipoestado">{{tipo.tipoEstado}}</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="estado_tutoria" class="form-label"><b>Estado</b> </label>
+                                <input type="text" formControlName="estado" class="form-control"
+                                    id="estado_tutoria" aria-describedby="estado_tutoria" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="linea btn bmodal btn-danger btn-sm"
+                                data-bs-dismiss="modal">Salir</button>
+                            <button type="submit" class="linea btn bmodal btn-success btn-sm">Agregar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- modal modificar datos-->
+    <div class="modal fade modal" id="modalmodificar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Modificar datos de la tabla de estados
+                            tutorias</b></h1>
+                </div>
+                <div class="modal-body">
+                    <form class="row d-flex justify-content-center" [formGroup]="estadoTutoriaForm"
+                        (ngSubmit)="onSubmit()">
+                        <div class="col-md-5">
+                            <div class="mb-4">
+                                <label for="id_estado_tutoria" class="form-label"><b>tipoxestado</b> </label>
+                                <select class="form-control" formControlName="tipoxestado">
+
+                                    <option [value]="tipo.tipoEstado" *ngFor="let tipo of tipoestado">{{tipo.tipoEstado}}</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="estado_tutoria" class="form-label"><b>Estado tutoria</b> </label>
+                                <input type="text" class="form-control" formControlName="estado"
+                                    id="estado_tutoria" aria-describedby="estado_tutoria" autocomplete="off">
+                            </div>
+                            <input type="text" formControlName="id" hidden>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="linea btn bmodal btn-danger btn-sm"
+                                data-bs-dismiss="modal">Salir</button>
+                            <button type="submit" class="linea btn bmodal btn-success btn-sm">Modificar</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,170 @@
+<!-- <button
+      nz-button
+      style="border-radius: 15px"
+      data-bs-toggle="modal"
+      type="button"
+      data-bs-target="#modaldescripcion"
+      nzType="primary"
+    >Descripcion</button>
+
+<div
+  class="modal fade modal-lg"
+  id="modaldescripcion"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          <b>Datos de la tutoria acádemica</b>
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form class="row">
+          <div class="table-responsive">
+            <nz-table #nzTable [nzData]="horarioTutoria" nzTableLayout="fixed">
+              <thead>
+                <tr>
+                  <th>Datos</th>
+                  <th>Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr >
+                  <td><b>Nombres</b></td>
+                  <td>{{ horarioTutoria?.nombres }} {{ horarioTutoria?.apellidos }}</td>
+                </tr>
+                <tr>
+                  <td><b>Facultad</b></td>
+                  <td>{{horarioTutoria?.facultad}}</td>
+                </tr>
+                <tr>
+                  <td><b>Materia</b></td>
+                  <td>{{horarioTutoria?.materia}}</td>
+                </tr>
+                <tr>
+                  <td><b>programa</b></td>
+                  <td>{{horarioTutoria?.programa}}</td>
+                </tr>
+                <tr>
+                  <td><b>Sede</b></td>
+                  <td>{{horarioTutoria?.sede}}</td>
+                </tr>
+                <tr>
+                  <td><b>Salon</b></td>
+                  <td>{{horarioTutoria?.salon}}</td>
+                </tr>
+                <tr>
+                  <td><b>Capacidad</b></td>
+                  <td>{{horarioTutoria?.capacidad}}</td>
+                </tr>
+                <tr>
+                  <td><b>Cupos</b></td>
+                  <td>{{horarioTutoria?.cupos}}</td>
+                </tr>
+                <tr>
+                  <td><b>Tema</b></td>
+                  <td>
+                    {{horarioTutoria?.tema}}
+                  </td>
+                </tr>
+                <tr>
+                  <td><b>Fecha</b></td>
+                  <td>{{horarioTutoria?.fecha}}</td>
+                </tr>
+                <tr>
+                  <td><b>Hora de inicio</b></td>
+                  <td>{{horarioTutoria?.horaInicio}}</td>
+                </tr>
+                <tr>
+                  <td><b>Hora de finalizacion</b></td>
+                  <td>{{horarioTutoria?.horaFin}}</td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="linea btn bmodal btn btn-danger btn-md"
+              data-bs-dismiss="modal"
+            >
+              Salir
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal lista estudiantes-->
+<div
+  class="modal fade modal-xl"
+  id="modallista"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          <b>Lista de estudiantes de tutoria acádemica</b>
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form class="row">
+          <div class="table-responsive">
+            <nz-table #nzTable [nzData]="horarioTutoria" nzTableLayout="fixed">
+              <thead>
+                <tr>
+                  <th>Nombres</th>
+                  <th>Apellidos</th>
+                  <th>Tipo documento</th>
+                  <th>Documento</th>
+                  <th>Facultad</th>
+                  <th>Programa</th>
+                  <th>Correo</th>
+                  <th>Celular</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </nz-table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="linea btn bmodal btn-danger btn-sm"
+              data-bs-dismiss="modal"
+            >
+              Salir
+            </button>
+            <button type="button" class="linea btn bmodal btn-primary btn-sm">
+              Cambiar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div> -->
+

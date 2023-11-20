@@ -1,0 +1,43 @@
+<h5 class="text-center">HISTORIAL DE ACTIVIDAD DEL SISTEMA</h5>
+<div class="table-responsive">
+  <nz-table #nzTable [nzData]="data" nzTableLayout="fixed" [nzPageSize]="4">
+    <thead>
+      <tr>
+        <th nzCustomFilter>
+          Tipo de actividad
+         
+        </th>
+        <th>Usuario</th>
+        <th nzCustomFilter>Fecha y hora
+
+          <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+            <span nz-icon nzType="search">Buscar </span>
+          </nz-filter-trigger>
+
+        </th>
+        <th>Ubicación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of nzTable.data">
+
+        <td>{{ data.tipo_actividad}}</td>
+        <td>{{ data.nombre_completo}}</td>
+        <td>{{data.fecha_hora}}</td>
+        <td>{{ data.ubicacion}}</td>
+        
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+      <div class="search-box">
+        <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue" />
+        <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+        <button nz-button nzSize="small" (click)="reset()">Reset</button>
+      </div>
+    </div>
+  </nz-dropdown-menu>
+
+  

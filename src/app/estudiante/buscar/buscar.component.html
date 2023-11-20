@@ -1,0 +1,106 @@
+<!--<h5 class="text-center">AGENDAMIENTO DE TUTORIAS ACÁDEMICAS</h5>-->
+<div class="container w-25 d-flex mb-3">
+  <select *ngIf="false" (change)="onChange($event)" class="form-control" name="facultad" id="facultad">
+    <option value="all">Escoge alguna materia</option>
+    <option  [value]="materia.materia" *ngFor="let materia of materias">{{materia.materia}}</option>
+  </select>
+</div>
+
+<nz-table #headerTable [nzData]="horarios" [nzPageSize]="6" >
+
+  <div class="d-flex justify-content-between  gap-3  flex-wrap">
+    
+
+   
+    <nz-card style="width:270px;" class="col-4 card-diseño media" *ngFor="let horario of headerTable.data " [nzBordered]="true"
+
+      nzTitle="{{horario.materia}}">
+      <p>Docente: {{ horario.nombres }} {{ horario.apellidos }}</p>
+      <p>Tema: {{ horario.tema }}</p>
+      <p>Cupos: {{ horario.cupos }}</p>
+
+      <div class="container-actions d-flex justify-content-around gap-3">
+        <button nz-button nzType="primary" class="btnagendar" (click)="agendarTutoria(horario.id)">
+          Agendar
+        </button>
+        <button nz-button data-bs-toggle="modal" class="btnfunciones" type="button" data-bs-target="#modaldescripcion" nzType="primary"
+          (click)="descripcion(horario.id)">
+          Descripcion
+        </button>
+      </div>
+    </nz-card>
+  </div>
+
+
+  <div class="modal fade modal-lg" id="modaldescripcion" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Datos de la tutoria acádemica</b>
+          </h1>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Salir</button>
+        </div>
+        <div class="modal-body">
+          <form class="row">
+            <div class="table-responsive">
+              <nz-table #nzTable [nzData]="datosModal" nzTableLayout="fixed">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Descripción</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr>
+                    <td><b>Facultad</b></td>
+                    <td>{{ datosModal.facultad }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>programa</b></td>
+                    <td>{{ datosModal.programa }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Materia</b></td>
+                    <td>{{ datosModal.materia }}</td>
+                  </tr>
+                 
+                  <tr>
+                    <td><b>Sede</b></td>
+                    <td>{{ datosModal.sede }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Salon</b></td>
+                    <td>{{ datosModal.salon }}</td>
+                  </tr>
+                
+                  <tr>
+                    <td><b>Cupos</b></td>
+                    <td>{{ datosModal.cupos }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Tema</b></td>
+                    <td>{{ datosModal.tema }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Fecha</b></td>
+                    <td>{{ datosModal.fecha }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Hora de inicio</b></td>
+                    <td>{{ datosModal.hora_inicial }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Hora de finalizacion</b></td>
+                    <td>{{ datosModal.hora_final }}</td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>

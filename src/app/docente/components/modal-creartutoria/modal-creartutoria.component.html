@@ -1,0 +1,100 @@
+<h5 class="text-center">TUTORIAS ACÁDEMICAS PENDIENTES</h5>
+<div class="container">
+  <div class="container-button d-flex justify-content-end">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btnc btn-primary" data-bs-toggle="modal" data-bs-target="#modalobservaciones">
+      Crear horario
+    </button>
+    <button type="button" data-bs-toggle="modal" data-bs-target="#modalobservaciones">observaciones</button>
+  </div>
+  <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Crear horario tutoria acádemica</b></h1>
+        </div>
+        <div class="modal-body">
+          <form class="row" [formGroup]="horarioForm" (ngSubmit)="onSubmit()">
+            <div class="col-md-4">
+              
+              <div class="mb-3">
+                <label for="facultad" class="form-label"><b>Facultad</b> </label>
+                <input type="text" class="form-control" id="facultad" formControlName="facultad"
+                  aria-describedby="facultad" readonly>
+              </div>
+
+              <div class="mb-3">
+                <label for="tema" class="form-label"><b>Tema</b></label>
+
+                <input type="text" formControlName="tema" class="form-control" id="tema" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="sede" class="form-label"><b>Sede</b> </label>
+                <input type="text" name="sede" readonly id="sede" class="form-control" required formControlName="sede">
+              </div>
+            
+              <div class="mb-3">
+                <label for="hora_inicio" class="form-label"><b> Hora de inicio</b></label>
+                <input type="time" formControlName="horaInicio" class="form-control" id="hora_inicio" required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="programa" class="form-label"><b>Programa</b></label>
+                <select class="form-control" formControlName="programa" id="programa" required>
+                  <option [value]="programa" *ngFor="let programa of programas">{{programa}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="salon" class="form-label"><b>Salón</b></label>
+                <select class="form-control" formControlName="salon" id="salon" (change)="onSelect($event)" required>
+                  <option *ngFor="let salon of salones" [value]="salon">{{salon}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="docente" class="form-label"><b>Docente</b> </label>
+                <input type="text" class="form-control" formControlName="docente" id="docente" required readonly>
+              </div>
+
+              <div class="mb-3">
+                <label for="hora_finalizacion" class="form-label"><b>Hora de finalización</b></label>
+                <input type="time" formControlName="horaFin" class="form-control" id="hora_finalizacion" required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="materia" class="form-label"><b>Materia</b></label>
+                <select formControlName="materia" class="form-control" id="materia" required>
+                  <option *ngFor="let materia of materias" [value]="materia">{{materia}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="capacidad" class="form-label"><b>Capacidad</b></label>
+                <input type="text" formControlName="capacidad" class="form-control" id="capacidad" required readonly>
+              </div>
+             
+
+              <div class="mb-3">
+                <label for="fecha" class="form-label"><b>Fecha</b></label>
+                <input type="date" formControlName="fecha" class="form-control" id="fecha" required>
+              </div>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="linea btn bmodal btn-danger btn-sm" data-bs-dismiss="modal">Salir</button>
+              <button type="submit" class="linea btn bmodal btn-success btn-sm" [disabled]="horarioForm.invalid">Crear</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>

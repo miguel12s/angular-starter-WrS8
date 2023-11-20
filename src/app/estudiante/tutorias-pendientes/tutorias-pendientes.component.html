@@ -1,0 +1,102 @@
+<h5 class="text-center">TUTORIAS ACÁDEMICAS PENDIENTES</h5>
+<nz-table #headerTable [nzData]="horario" [nzPageSize]="4" [nzScroll]="{ y: '300px' }">
+  <thead>
+    <tr>
+      <th >Fecha</th>
+      <th>Inicio</th>
+      <th>Finalización</th>
+      <th>Materia</th>
+      <th>Descripcion</th>
+      <th>Cancelar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let h of headerTable.data">
+      <td>{{h.fecha}}</td>
+      <td>{{h.hora_inicial}}</td>
+        <td>{{h.hora_final}}</td>
+        <td>{{h.materia}}</td>
+      <td><button nz-button nzType="primary" class="btnfunciones" data-bs-toggle="modal" data-bs-target="#modaldescripcion"
+          (click)="descripcion(h.id)">Descripcion</button></td>
+      <td><button nz-button nzType="primary" class="btndenegar" nzDanger (click)="cancelarTutoria(h.id)">Cancelar tutoria</button>
+      </td>
+    </tr> 
+  </tbody>
+</nz-table>
+
+
+
+
+
+<div class="modal fade modal-lg" id="modaldescripcion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Datos de la tutoria acádemica</b>
+        </h1>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Salir
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="row">
+          <div class="table-responsive">
+            <nz-table #nzTable [nzData]="datosModal" nzTableLayout="fixed">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr>
+                  <td><b>Facultad</b></td>
+                  <td>{{datosModal.facultad }}</td>
+                </tr>
+                <tr>
+                  <td><b>Materia</b></td>
+                  <td>{{datosModal.materia }}</td>
+                </tr>
+                <tr>
+                  <td><b>programa</b></td>
+                  <td>{{datosModal.programa }}</td>
+                </tr>
+                <tr>
+                  <td><b>Sede</b></td>
+                  <td>{{datosModal.sede }}</td>
+                </tr>
+                <tr>
+                  <td><b>Salon</b></td>
+                  <td>{{datosModal.salon }}</td>
+                </tr>
+                <tr>
+                  <td><b>Cupos</b></td>
+                  <td>{{datosModal.cupos }}</td>
+                </tr>
+                
+                <tr>
+                  <td><b>Tema</b></td>
+                  <td>{{datosModal.tema }}</td>
+                </tr>
+                <tr>
+                  <td><b>Fecha</b></td>
+                  <td>{{datosModal.fecha }}</td>
+                </tr>
+                <tr>
+                  <td><b>Hora de inicio</b></td>
+                  <td>{{datosModal.hora_inicial }}</td>
+                </tr>
+                <tr>
+                  <td><b>Hora de finalizacion</b></td>
+                  <td>{{datosModal.hora_final }}</td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>

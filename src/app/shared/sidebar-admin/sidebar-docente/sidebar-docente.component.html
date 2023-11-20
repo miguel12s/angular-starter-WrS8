@@ -1,0 +1,47 @@
+<nz-layout class="app-layout ">
+  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <img src="../../../assets/ubsinfondo.png" alt="logo">
+      <h1>TUTOBQ</h1>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzOpen nzTitle="Navegación" nzIcon="compass">
+        <ul>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="perfilDocente">Perfil</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="crearTutoria">Tutorias pendientes</a>
+          </li>
+          <li nz-menu-item nzMatchRouter>
+            <a routerLink="historial-tutoria">Historial de tutorias</a>
+          </li>
+        </ul>
+      </li>
+      <div class="sidebar-cerrar">
+        <a (click)="logout()"  routerLink="/auth/login">
+          <img src="../../../assets/logout.png" alt="cerrar">
+        </a>
+        <a (click)="logout()" routerLink="/auth/login">
+          <h1>Cerrar sesión</h1>
+
+        </a>
+      </div>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content ">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

@@ -1,0 +1,166 @@
+<nz-card
+  style="
+    width: 280px;
+    margin-bottom: 10px;
+    box-shadow: 0.5px 2px 3px rgba(0, 0, 0, 0.5);
+  "
+  [nzBordered]="true"
+  nzTitle="{{horario.tema}}"
+  [nzExtra]="extraTemplate"
+>
+  <p>Docente: {{ horario.nombres }} {{ horario.apellidos }}</p>
+  <p>Materia: {{ horario.materia }}</p>
+  <p>Salon: {{ horario.salon }}</p>
+  <div class="container-actions d-flex justify-space-between gap-4">
+    <button nz-button style="border-radius: 15px" nzType="primary">
+      Agendar
+    </button>
+    <button
+      nz-button
+      style="border-radius: 15px"
+      data-bs-toggle="modal"
+      type="button"
+      data-bs-target="#modaldescripcion"
+      nzType="primary"
+     
+    >
+      Descripcion
+    </button>
+  </div>
+  <!-- <div
+  class="modal fade modal-lg"
+  id="modaldescripcion"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          <b>Datos de la tutoria acádemica</b>
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+          <div class="table-responsive">
+            <table >
+              <thead>
+                <tr>
+                  <th>Datos</th>
+                  <th>Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr  >
+                  <td>nombres</td>
+                  <td>{{horario.tema}}</td>
+                  <td><b>Nombres</b></td>
+                  <td>{{datosModal?.tema}}</td> -->
+               
+</nz-card>
+
+<ng-template #extraTemplate>
+  <!-- <a>More</a> -->
+</ng-template>
+<div class="modal fade modal-lg" id="modaldescripcion" data-bs-backdrop="static" data-bs-keyboard="false"
+tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Datos de la tutoria acádemica</b>
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="row">
+                <div class="table-responsive">
+                    <nz-table #nzTable [nzData]="datosModal" nzTableLayout="fixed">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>Nombres</b></td>
+                                <td *ngFor="let tutoria of datosModal">{{tutoria.nombres}} {{tutoria.apellidos}}</td>
+                            </tr>
+                            <tr>
+                                <td><b>Facultad</b></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><b>Materia</b></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><b>Sede</b></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="linea btn bmodal btn-danger btn-sm"
+                        data-bs-dismiss="modal">Salir</button>
+                    <button type="button" class="linea btn bmodal btn-primary btn-sm">Cambiar</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+
+<!-- modal lista estudiantes-->
+<div class="modal fade modal-xl" id="modallista" data-bs-backdrop="static" data-bs-keyboard="false"
+tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Lista de estudiantes de tutoria acádemica</b>
+            </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="row">
+                <div class="table-responsive">
+                    <nz-table #nzTable [nzData]="datosModal" nzTableLayout="fixed">
+                        <thead>
+                            <tr>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Tipo documento</th>
+                                <th>Documento</th>
+                                <th>Facultad</th>
+                                <th>Programa</th>
+                                <th>Correo</th>
+                                <th>Celular</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </nz-table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="linea btn bmodal btn-danger btn-sm"
+                        data-bs-dismiss="modal">Salir</button>
+                    <button type="button" class="linea btn bmodal btn-primary btn-sm">Cambiar</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+

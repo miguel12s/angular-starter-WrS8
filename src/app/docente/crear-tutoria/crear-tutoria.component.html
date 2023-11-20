@@ -1,0 +1,291 @@
+<h5 class="text-center">TUTORIAS ACÁDEMICAS PENDIENTES</h5>
+<div class="container">
+  <div class="container-button d-flex justify-content-end">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btnc btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+      Crear horario
+    </button>
+  </div>
+
+  <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">
+            <b>Crear horario tutoria acádemica</b>
+          </h1>
+        </div>
+        <div class="modal-body">
+          <form class="row" [formGroup]="horarioForm" (ngSubmit)="onSubmit()">  
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="facultad" class="form-label"><b>Facultad</b>
+                </label>
+                <select (change)="selectedFaculty($event)" class="form-control" id="" formControlName="id_facultad">
+                  <option [ngValue]="facultad.id" *ngFor="let facultad of facultades">
+                    {{ facultad.facultad }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="tema" class="form-label"><b>Tema</b></label>
+
+                <input type="text" formControlName="tema" class="form-control" id="tema" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="sede" class="form-label"><b>Sede</b> </label>
+                <input type="text" name="sede" readonly id="sede" class="form-control" required
+                  formControlName="id_sede" />
+              </div>
+
+              <div class="mb-3">
+                <label for="hora_inicio" class="form-label"><b> Hora de inicio</b></label>
+                <input type="time" formControlName="hora_inicial" class="form-control" id="hora_inicio" required />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="programa" class="form-label"><b>Programa</b></label>
+                <select (change)="selectedMateria($event)" class="form-control" formControlName="id_programa"
+                  id="programa" required>
+                  <option [value]="programa.id_programa" *ngFor="let programa of programas">
+                    {{ programa.programa }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="salon" class="form-label"><b>Salón</b></label>
+                <select class="form-control" formControlName="id_salon" id="salon" (change)="onSelect($event)" required>
+                  <option *ngFor="let salon of salones" [ngValue]="salon.id_salon">
+                    {{ salon.salon }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="cupos" class="form-label"><b>Cupos</b></label>
+                <input #cupos type="number" formControlName="cupos" class="form-control" id="cupos" required />
+              </div>
+
+              <div class="mb-3">
+                <label for="hora_finalizacion" class="form-label"><b>Hora de finalización</b></label>
+                <input type="time" formControlName="hora_final" class="form-control" id="hora_finalizacion" required />
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="materia" class="form-label"><b>Materia</b></label>
+                <select formControlName="id_materia" class="form-control" id="materia" required>
+                  <option *ngFor="let materia of materias" [value]="materia.id">
+                    {{ materia.materia }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="capacidad" class="form-label"><b>Capacidad</b></label>
+                <input #capacidad type="number" formControlName="id_capacidad" class="form-control" id="capacidad" required
+                  readonly />
+              </div>
+
+
+
+              <div class="mb-3">
+                <label for="fecha" class="form-label"><b>Fecha</b></label>
+                <input type="date" formControlName="fecha" class="form-control" [min]="dateNext" id="fecha" required />
+              </div>
+
+
+              <div class="alert alert-danger" *ngIf="horarioForm.get('cupos')?.hasError('cuposExcedidos')">los cupos deben ser menores o iguales a la capacidad del salon</div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="linea btn bmodal btn-danger btn-sm btn-md" data-bs-dismiss="modal">
+                Salir
+              </button>
+              <button type="submit" class="linea btn bmodal btn-success btn-sm" [disabled]="horarioForm.invalid ">
+                Crear
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nz-table #headerTable [nzData]="horario" [nzPageSize]="4">
+    <thead>
+      <tr>
+        <th>cupos</th>
+        <th>fecha</th>
+
+        <th>horaInicio</th>
+        <th>horaFin</th>
+        <th>Descripcion</th>
+        <th>Listado</th>
+        <th>Eliminar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let h of headerTable.data">
+        <td>{{ h.cupos }}</td>
+        <td>{{ h.fecha }}</td>
+        <td>{{ h.hora_inicial }}</td>
+        <td>{{ h.hora_final }}</td>
+        <td>
+          <button nz-button nzType="primary" class="btnfunciones" data-bs-toggle="modal"
+            data-bs-target="#modaldescripcion" (click)="descripcion(h.id)">
+            Descripcion
+          </button>
+        </td>
+        <td>
+          <button nz-button nzType="primary" class="btnfunciones" data-bs-toggle="modal" data-bs-target="#modal"
+            (click)="listado(h.id)">
+            Listado
+          </button>
+        </td>
+
+        <td>
+          <button type="button" class="btndenegar" nz-button (click)="getData(h.id)">
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<div class="modal fade modal-lg" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          <b>listado de la tutoria acádemica</b>
+        </h1>
+        <div class="d-flex">
+          <div class="mb-3 me-2">
+            <button type="button" class="linea btn bmodal btnagendar btn-sm"  (click)="pasarLista()">Pasar lista</button>
+          </div>
+          <!--nz-button nzType="primary"-->
+          <div class="mb-3">
+            <button type="button" class="linea btn bmodal btndenegar btn-sm" data-bs-dismiss="modal">
+              Salir
+            </button>
+          </div>
+          
+          
+        </div>
+        
+      </div>
+      <div class="modal-body">
+        <form class="row">
+          <div class="table-responsive">
+            <nz-table #headeTable [nzData]="estudiantes" [nzPageSize]="4">
+              <thead>
+                <tr>
+                  <th>Nombres</th>
+                  <th>Documento de identificacion</th>
+                  <th>Programa</th>
+                  <th>Asistencia</th>
+                  <th>Observacion</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let h of headeTable.data;let i=index">
+
+                  <td>{{ h.nombre_estudiante }}</td>
+                  <td>{{ h.numero_documento }}</td>
+                  <td>{{ h.programa }}</td>
+                  <td><input type="checkbox" (change)="changeValue(i)" [checked]="h.asistencia==1"
+                      formControlName="{{asistenciasArray.at(i)}}" name="asistencia" id="asistencia"></td>
+                  <td><input type="text" (input)="changeInput(i,$event)" formControlName="{{observacionArray.at(i)}}"
+                      name="observacion" id="observacion" class="form-control"></td>
+                  <input type="hidden" formControlName="{{idUsuarioArray.at(i)}}" [value]="h.id_usuario">
+                </tr>
+
+              </tbody>
+            </nz-table>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade modal-lg" id="modaldescripcion" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          <b>Datos de la tutoria acádemica</b>
+        </h1>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Salir
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="row">
+          <div class="table-responsive">
+            <nz-table #nzTable [nzData]="datosModal" nzTableLayout="fixed">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><b>Facultad</b></td>
+                  <td>{{ datosModal.facultad }}</td>
+                </tr>
+                <tr>
+                  <td><b>Materia</b></td>
+                  <td>{{ datosModal.materia }}</td>
+                </tr>
+                <tr>
+                  <td><b>programa</b></td>
+                  <td>{{ datosModal.programa }}</td>
+                </tr>
+                <tr>
+                  <td><b>Sede</b></td>
+                  <td>{{ datosModal.sede }}</td>
+                </tr>
+                <tr>
+                  <td><b>Salon</b></td>
+                  <td>{{ datosModal.salon }}</td>
+                </tr>
+
+                <tr>
+                  <td><b>Cupos</b></td>
+                  <td>{{ datosModal.cupos }}</td>
+                </tr>
+                <tr>
+                  <td><b>Tema</b></td>
+                  <td>{{ datosModal.tema }}</td>
+                </tr>
+                <tr>
+                  <td><b>Fecha</b></td>
+                  <td>{{ datosModal.fecha }}</td>
+                </tr>
+                <tr>
+                  <td><b>Hora de inicio</b></td>
+                  <td>{{ datosModal.hora_inicial }}</td>
+                </tr>
+                <tr>
+                  <td><b>Hora de finalizacion</b></td>
+                  <td>{{ datosModal.hora_final }}</td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

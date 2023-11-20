@@ -1,0 +1,167 @@
+<h5 class="text-center">HISTORIAL DE TUTORIAS ACÁDEMICAS</h5>
+<div class="table-responsive">
+  <nz-table #nzTable [nzData]="data" nzTableLayout="fixed" [nzPageSize]="4">
+    <thead>
+      <tr>
+        <th nzCustomFilter>
+          Facultad
+         
+        </th>
+        <th>Programa</th>
+        <th nzCustomFilter>Docente
+
+          <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+            <span nz-icon nzType="search">Buscar </span>
+          </nz-filter-trigger>
+
+        </th>
+        <th>fecha</th>
+        <th>Descripción</th>
+        <th>Lista Estudiantes</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of nzTable.data">
+
+        <td>{{ data.facultad}}</td>
+        <td>{{ data.programa}}</td>
+        <td>{{data.nombres}} {{data.apellidos}}</td>
+        <td>{{ data.fecha}}</td>
+        <td><button type="button" class="btn btnc btn-primary" data-bs-toggle="modal" data-bs-target="#modaldescripcion"
+            (click)="descripcion(data.id)">
+            Descripción
+          </button></td>
+        <td><button type="button" class="btn btnc btn-primary" data-bs-toggle="modal" (click)="listado(data.id)"
+            data-bs-target="#modallista">
+            Descargar
+          </button></td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+      <div class="search-box">
+        <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue" />
+        <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+        <button nz-button nzSize="small" (click)="reset()">Reset</button>
+      </div>
+    </div>
+  </nz-dropdown-menu>
+
+  <!-- modal descripcion tutoria-->
+  <div class="modal fade modal-lg" id="modaldescripcion" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Datos de la tutoria acádemica</b>
+          </h1>
+          <button type="button" class="linea btn bmodal btn-danger btn-md" data-bs-dismiss="modal">
+            Salir
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="row">
+            <div class="table-responsive">
+              <nz-table #nzTable [nzData]="datosModal" nzTableLayout="fixed">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Descripción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><b>Facultad</b></td>
+                    <td>{{ datosModal.facultad }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Materia</b></td>
+                    <td>{{ datosModal.materia }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>programa</b></td>
+                    <td>{{ datosModal.programa }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Sede</b></td>
+                    <td>{{ datosModal.sede }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Salon</b></td>
+                    <td>{{ datosModal.salon }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Cupos</b></td>
+                    <td>{{ datosModal.cupos }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Tema</b></td>
+                    <td>{{ datosModal.tema }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Fecha</b></td>
+                    <td>{{ datosModal.fecha }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Hora de inicio</b></td>
+                    <td>{{ datosModal.hora_inicial }}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Hora de finalizacion</b></td>
+                    <td>{{ datosModal.hora_final }}</td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- modal lista estudiantes-->
+  <!-- <div class="modal fade modal-xl" id="modallista" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Lista de estudiantes de tutoria
+              acádemica</b>
+          </h1>
+          <button type="button" class="btn btn-danger btn-md" data-bs-dismiss="modal">
+            Salir
+          </button>
+        </div>
+        <div class="modal-body">
+          <form class="row">
+            <div class="table-responsive">
+              <nz-table #headeTable [nzData]="estudiantes" [nzPageSize]="4">
+                <thead>
+                  <tr>
+                    <th>Nombres</th>
+                    <th>Documento de identificacion</th>
+                    <th>Programa</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let h of headeTable.data">
+                    <td>{{ h.nombres }}
+                      {{ h.apellidos }}</td>
+                    <td>{{ h.identificacion }}</td>
+                    <td>{{ h.programa }}</td>
+                  </tr>
+                </tbody>
+              </nz-table>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div> -->

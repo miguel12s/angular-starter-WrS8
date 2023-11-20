@@ -1,0 +1,143 @@
+
+
+@media screen  and (max-width:700px){
+    .container{
+        display: flex;
+        flex-direction: column;
+    }
+}
+.container-insights-yellow{
+  padding: 15px 0 0 15px;
+  background-color: rgb(69, 69, 255);
+  gap: 14px;
+  width:210px;
+  border-color:black ;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  display: flex;
+  padding: 17px;
+  flex-direction: row;
+  border-radius: 20px;
+  border: 1px solid black;
+}
+
+.container-insights-green{
+    padding: 15px 0 0 15px;
+    background-color: rgb(42, 248, 42);
+    gap: 14px;
+    width:210px;
+    border-color:black ;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    display: flex;
+    padding: 17px;
+    flex-direction: row;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+
+.container-insights-blue{
+    padding: 15px 0 0 15px;
+    background-color: rgb(248, 106, 55);
+    gap: 14px;
+    width:210px;
+    border-color:black ;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    display: flex;
+    padding: 17px;
+    flex-direction: row;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+
+.container-insights-white{
+    padding: 15px 0 0 15px;
+    background-color: rgb(252, 68, 62);
+    gap: 14px;
+    width:210px;
+    border-color:black ;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    display: flex;
+    padding: 17px;
+    flex-direction: row;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+
+.container-insights-red{
+    padding: 15px 0 0 15px;
+    background-color: rgb(186, 82, 255);
+    gap: 14px;
+    width:210px;
+    border-color:black ;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    display: flex;
+    padding: 17px;
+    flex-direction: row;
+    border-radius: 20px;
+    border: 1px solid black;
+}
+.container-info{
+  display: flex;
+  justify-content: end;
+  flex-direction: row;
+}
+
+.container-icon{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    border-radius: 20px;
+    display: flex;
+}
+
+
+span{
+    font-size: 16px;
+    text-align: start;
+}
+.container-data{
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+h3{
+    font-family: sans-serif;
+    font-size: 18px;
+    
+}
+
+
+
+
+.form-group{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+input,textarea,input,option,select{
+  
+    border-color: #0d6efd;
+}
+
+
+.form{
+    width: 500px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}

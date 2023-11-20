@@ -1,0 +1,269 @@
+<h5 class="text-center">ADMINISTRAR TUTORIAS ACÁDEMICAS</h5>
+<div class="container-button d-flex justify-content-end m-1">
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btnc btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Crear horario
+  </button>
+</div>
+<div class="table-responsive">
+  <nz-table #nzTable [nzData]="listOfDisplayData" nzTableLayout="fixed" [nzPageSize]="4">
+    <thead>
+      <tr>
+        <th >
+          Facultad
+          
+        </th>
+        <th>Fecha</th>
+        <th>Tema</th>
+        <th nzCustomFilter>Docente
+
+          <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+            <span nz-icon nzType="search">Buscar </span>
+          </nz-filter-trigger>
+
+        </th>
+<th>Eliminar</th>      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of nzTable.data">
+        <td>{{ data.facultad}}</td>
+        <td>{{ data.fecha}}</td>
+        <td>{{data.tema}}</td>
+        <td>{{data.nombres}} {{data.apellidos}}</td>
+        <td>
+          <button type="button" class="btndenegar" nz-button (click)="cancelar(data.id,data.id_usuario)">
+            Eliminar
+          </button>
+        </td>
+        <!-- <td><button nz-button nzType="primary" class="btn btnc btn-primary"
+                        (click)="deshabilitar()">Deshabilitar</button></td> -->
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+      <div class="search-box">
+        <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue" />
+        <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Buscar</button>
+        <button nz-button nzSize="small" (click)="reset()">Reset</button>
+      </div>
+    </div>
+  </nz-dropdown-menu>
+
+  <!-- Modal crear tutoria -->
+  <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Crear horario de tutoria acádemica</b></h1>
+        </div>
+        <div class="modal-body">
+          <form class="row" [formGroup]="horarioAgregar" (ngSubmit)="agregar()">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="facultad" class="form-label"><b>Facultad</b> </label>
+                <select (change)="select($event)"  class="form-control" formControlName="facultad">
+                  <option [ngValue]="facultad.id" *ngFor="let facultad of facultadesUsuario">{{facultad.facultad}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="tema" class="form-label"><b>Tema</b></label>
+                <input type="text" class="form-control" id="tema" formControlName="tema" autocomplete="off" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="capacidad" class="form-label"><b>Capacidad</b></label>
+                <input type="text" readonly class="form-control" id="capacidad" formControlName="capacidad"
+                  autocomplete="off" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="hora_inicio" class="form-label">
+
+                  <b>
+                    Hora de inicio</b></label>
+                <input type="time" class="form-control" id="hora_inicio" formControlName="horaInicio" autocomplete="off"
+                  required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="programa" class="form-label"><b>Programa</b></label>
+                <select  (change)="selectedMateria($event)" name="" id="" class="form-control" formControlName="programa">
+                  <option [ngValue]="programa.id_programa" *ngFor="let programa of programas">{{programa.programa}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="sede" class="form-label"><b>Sede</b> </label>
+                <input type="text" name="sede" id="sede" class="form-control" readonly formControlName="sede">
+              </div>
+
+              <div class="mb-3">
+                <label for="docente" class="form-label"><b>Docente</b> </label>
+              
+                <select (change)="onSelect($event)" class="form-control" formControlName="docente">
+                  <option  value="{{docente.nombre}}-{{docente.id}}" *ngFor="let docente of docentes">{{docente.nombre}}-{{docente.id}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="hora_finalizacion" class="form-label"><b>Hora de finalización</b></label>
+                <input type="time" class="form-control" formControlName="horaFin" id="hora_finalizacion"
+                  autocomplete="off" required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="materia" class="form-label"><b>Materia</b></label>
+                <select name="" id="" class="form-control" formControlName="materia">
+                  <option [value]="materia.id" *ngFor="let materia of materias">{{materia.materia}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="salon" class="form-label"><b>Salón</b></label>
+                <select name="" id="" class="form-control" formControlName="salon" (change)="onChange($event)">
+                  <option [value]="salon.id_salon" *ngFor="let salon of salones">{{salon.salon}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="fecha" class="form-label"><b>Fecha</b></label>
+                <input type="date" class="form-control" id="fecha" formControlName="fecha" autocomplete="off"
+                  [min]="fechaHoy" required>
+              </div>
+              
+                        
+              <!-- <div class="mb-3">
+              <label for="cupos" class="form-label"><b>Cupos</b></label>
+              <input type="number" class="form-control" id="cupos" autocomplete="off" required>
+            </div> -->
+            <div class="mb-3">
+              <label for="hora_finalizacion" class="form-label"><b>Cupos</b></label>
+              <input type="number" class="form-control" formControlName="cupos" id="hora_finalizacion"
+                autocomplete="off" required>
+            </div>
+          </div>
+            <div class="modal-footer">
+              <button type="button" class="linea btn bmodal btn-danger btn-sm" data-bs-dismiss="modal">Salir</button>
+              <button type="submit" class="linea btn bmodal btn-success btn-sm " [disabled]="horarioAgregar.invalid">Crear</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- modal modificar datos-->
+  <div class="modal fade modal-lg" id="modalmodificar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Modificar horario de tutoria acádemica</b></h1>
+        </div>
+        <div class="modal-body">
+          <form class="row" [formGroup]="horarioForm" (ngSubmit)="onSubmit(horario.id_tutoria)">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="facultad" class="form-label"><b>Facultad</b> </label>
+
+                <!-- <input type="text" class="form-control" id="facultad" aria-describedby="facultad" formControlName="facultad"  readonly> -->
+                <select  name="" id="" class="form-control" formControlName="facultad">
+                  <option [ngValue]="facultad.id_facultad" *ngFor="let facultad of facultades">{{facultad.facultad}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="tema" class="form-label"><b>Tema</b></label>
+                <input type="text" formControlName="tema" class="form-control" id="tema" autocomplete="off" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="capacidad" class="form-label"><b>Capacidad</b></label>
+                <input type="text" formControlName="capacidad" class="form-control" id="capacidad" readonly
+                  autocomplete="off" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="hora_inicio" class="form-label">Hora de inicio</label>
+                <input type="time" class="form-control" id="hora_inicio" formControlName="horaInicio" autocomplete="off"
+                  required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="programa" class="form-label">Programa</label>
+                <select name="" id="" class="form-control" formControlName="programa">
+                  <option [value]="programa.programa" *ngFor="let programa of programas">{{programa.programa}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="sede" class="form-label"><b>Sede</b> </label>
+                <input type="text" readonly formControlName="sede" class="form-control" id="sede" autocomplete="off"
+                  required>
+              </div>
+
+              <div class="mb-3">
+                <label for="docente" class="form-label"><b>Docente</b> </label>
+                <select name="docente" id="docente" class="form-control" formControlName="docente">
+                  <option value="{{docente.nombres}} {{docente.apellidos}}-{{docente.id_usuario}}"
+                    *ngFor="let docente of docentes">{{docente.nombres}} {{docente.apellidos}}-{{docente.id_usuario}}
+                  </option>
+                </select>
+
+
+              </div>
+
+              <div class="mb-3">
+                <label for="hora_finalizacion" class="form-label"><b>Hora de finalización</b></label>
+                <input type="time" formControlName="horaFin" class="form-control" id="hora_finalizacion"
+                  autocomplete="off" required>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="materia" class="form-label"><b>Materia</b></label>
+                <select name="" id="" class="form-control" formControlName="materia">
+                  <option [value]="materia.materia" *ngFor="let materia of materias">{{materia.materia}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="salon" class="form-label"><b>Salón</b></label>
+                <select name="" id="" class="form-control" (change)="onChangeValue($event)" formControlName="salon">
+                  <option [value]="salon.id_salon" *ngFor="let salon of salones">{{salon.salon}}</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="fecha" class="form-label"><b>Fecha</b></label>
+                <input type="date" formControlName="fecha" class="form-control" [min]="fechaHoy" id="fecha"
+                  autocomplete="off" required>
+              </div>
+              <input type="hidden" formControlName="id_tutoria">
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="linea btn bmodal btn-danger btn-sm" data-bs-dismiss="modal">Salir</button>
+              <button type="submit" class="linea btn bmodal btn-success btn-sm">Modificar</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

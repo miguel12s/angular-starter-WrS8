@@ -1,0 +1,161 @@
+<nz-layout class="app-layout ">
+  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null">
+    <div class="sidebar-logo">
+      <img src="../../../assets/ubsinfondo.png" alt="logo">
+      <h1>TUTOBQ</h1>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+
+      <!-- <li nz-menu-item >
+        <a  routerLink="dashboard"><span nz-icon nzType="dashboard" nzTheme="outline"></span>     Dashboard</a>
+      </li> fund-projection-screen-->
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Navigation One' : ''">
+        <span nz-icon nzType="dashboard"></span>
+        <span routerLink="dashboard">Dashboard</span>
+
+      </li>
+      <li nz-menu-item nz-tooltip nzTooltipPlacement="right" [nzTooltipTitle]="isCollapsed ? 'Navigation One' : ''">
+        <span nz-icon nzType="book"></span>
+        <span routerLink="reportes">Reportes</span>
+      </li>
+      
+      <li nz-submenu nzOpen nzTitle="Usuarios" nzIcon="user">
+        <ul>
+
+          <li nz-menu-item>
+            <a routerLink="modificar-estudiante">Usuarios</a>
+          </li>
+
+          <li nz-menu-item>
+            <a routerLink="agregar/estudiante">Permisos De Materias Usuarios</a>
+          </li>
+
+          <li nz-menu-item>
+            <a routerLink="modificar-docente">Facultades De Usuarios</a>
+          </li>
+
+          <li nz-menu-item>
+            <a routerLink="agregar/docente"> Campos Adicionales</a>
+          </li>
+
+        </ul>
+      </li>
+
+
+      <li nz-submenu nzOpen nzTitle="Tutorias" nzIcon="calendar">
+        <ul>
+          <ul>
+            <li nz-menu-item>
+              <a routerLink="crear-tutoria">Administrar Tutorias</a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="historial-tutorias">Historial Tutorias</a>
+            </li>
+
+          </ul>
+        </ul>
+      </li>
+
+      <li nz-submenu nzOpen nzTitle="Contactenos" nzIcon="notification">
+        <ul>
+          <li nz-menu-item>
+            <a routerLink="notificaciones">Notificaciones</a>
+          </li>
+
+          <li nz-menu-item>
+            <a routerLink="notificaciones-historial">Historial</a>
+          </li>
+        </ul>
+      </li>
+
+      <li nz-submenu nzOpen nzTitle="Administrar tablas" nzIcon="table">
+        <ul>
+          <li nz-submenu nzClose nzTitle="Modulo de administración" nzIcon="table">
+            <ul>
+              <li nz-menu-item>
+                <a routerLink="tablafacultades">Facultades</a>
+              </li>
+              <li nz-menu-item>
+                <a routerLink="tabla-programas">Programas</a>
+              </li>
+              <li nz-menu-item>
+                <a routerLink="tabla-materias">Materias</a>
+              </li>
+              <li nz-menu-item>
+                <a routerLink="tabla-sedes">Sedes</a>
+              </li>
+              <li nz-menu-item>
+                <a routerLink="tabla-roles">Roles</a>
+              </li>
+              <li nz-menu-item>
+                <a routerLink="tabla-tipo-documentos">Tipos de documentos</a>
+              </li>
+              <li nz-menu-item>
+                <a routerLink="facultadxmateria">Facultad x Materia</a>
+              </li>
+              <li nz-menu-item>
+                <a routerLink="facultadxprograma">Facultad x Programa</a>
+              </li>
+              <li nz-menu-item>
+                <a routerLink="registro-actividad">Registro De Actividad</a>
+              </li>
+              <li nz-menu-item>
+                <a routerLink="tipo-registro-actividad">Tipo Registro Actividad</a>
+              </li>
+            </ul>
+          </li>
+          <li nz-submenu nzClose nzTitle="Tablas salones" nzIcon="table">
+            <ul>
+              <li nz-menu-item>
+                <a routerLink="tabla-capacidades">Capacidades</a>
+              </li>
+              <li nz-menu-item>
+                <a routerLink="tabla-salones">Salones</a>
+              </li>
+            </ul>
+          </li>
+
+          <li nz-submenu nzClose nzTitle="Tablas de estados" nzIcon="table">
+            <ul>
+              <li nz-menu-item>
+                <a routerLink="tabla-estados">Tipos De Estados</a>
+              </li>
+              <li nz-menu-item>
+                <a routerLink="tabla-estados-tutorias">Tipos x Estados</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+      </li>
+
+      <div class="sidebar-cerrar">
+        <a (click)="logout()">
+          <img src="../../../assets/logout.png" alt="cerrar">
+        </a>
+        <a (click)="logout()">
+          <h1>Cerrar sesión</h1>
+
+        </a>
+      </div>
+
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+          <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></span>
+        </span>
+      </div>
+    </nz-header>
+    <nz-content>
+
+      <div class="inner-content ">
+
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

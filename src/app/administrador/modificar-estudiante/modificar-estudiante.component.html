@@ -1,0 +1,332 @@
+<h5 class="text-center">ADMINISTRAR USUARIOS</h5>
+<!-- <div>
+ 
+  <nz-input-number style="float:right;" [nzMin]="0" [nzMax]="29" [(ngModel)]="selectedIndex"></nz-input-number>
+
+  <nz-tabset
+    style="height:220px;"
+    [nzTabPosition]="nzTabPosition"
+    [(nzSelectedIndex)]="selectedIndex"
+    (nzSelectChange)="log([$event])"
+  >
+    <nz-tab
+      *ngFor="let tab of tabs"
+      [nzTitle]="tab.name"
+      [nzDisabled]="tab.disabled"
+      (nzSelect)="log(['select', tab])"
+      (nzClick)="log(['click', tab])"
+      (nzContextmenu)="log(['contextmenu', tab])"
+      (nzDeselect)="log(['deselect', tab])"
+      
+    >
+      <a href="/modificar-docente">{{tab.name}}</a>
+    </nz-tab>
+  </nz-tabset>
+</div> -->
+
+<div class="add-user d-flex justify-content-end mb-3 gap-3">
+  <button type="button" class="btn btn-warning d-flex justify-space-between align-items-center gap-3"  data-bs-toggle="modal" data-bs-target="#modalagregar">Agregar Usuario <span style="font-size: 18px;" nz-icon nzType="user-add" nzTheme="outline"></span ></button>
+    <button type="button" class="btn btn-warning d-flex justify-space-between align-items-center gap-3"  data-bs-toggle="modal" data-bs-target="#modallistado">Agregar Multiples Usuarios <span style="font-size: 18px;" nz-icon nzType="user-add" nzTheme="outline"></span ></button>
+    <button (click)="downloadPDF()" class="btn btn-success d-flex justify-space-between align-items-center gap-3" > <span nz-icon nzType="download" nzTheme="outline"></span>Descargar Listado</button>
+</div>
+
+<div class="table-responsive">
+  <nz-table #nzTable [nzData]="listOfDisplayData" [nzPageSize]="4" nzTableLayout="fixed">
+    <thead>
+      <tr>
+        <th nzCustomFilter>
+          Nombres
+          <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu" >
+            <span nz-icon nzType="search">Buscar </span>
+          </nz-filter-trigger>
+        </th>
+        <th>Facultad</th>
+        <th>Correo</th>
+        <th>Telefono</th>
+        <th>Acciones</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of nzTable.data">
+        <td>{{ user.nombre}} {{user.apellido}}</td>
+        <td>{{ user.facultad }}</td>
+        <td>{{user.correo}}</td>
+        <td>{{ user.celular }}</td>
+       
+        <td><button type="button" class="btn btnc btn-primary btnfunciones" data-bs-toggle="modal" (click)="modificar(user.id)" data-bs-target="#staticBackdrop">
+            Modificar
+          </button> 
+        
+        </td>
+       
+        
+      </tr>
+    </tbody>
+  </nz-table>
+
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+      <div class="search-box">
+        <input type="text" nz-input placeholder="Buscar" [(ngModel)]="searchValue" />
+        <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button"> Buscar </button>
+        <button nz-button nzSize="small" (click)="reset()"> Reset </button>
+      </div>
+    </div>
+  </nz-dropdown-menu>
+
+  <!-- Modal -->
+  <div class="modal fade modal-lg" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Modificar datos del usuario</b></h1>
+        </div>
+        <div class="modal-body">
+          <form class="row" [formGroup]="estudianteForm" (ngSubmit)="onSubmit()">
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="nombres" class="form-label"><b>Nombres</b></label>
+                <input formControlName="nombres" type="text" class="form-control" id="nombres" autocomplete="off" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="numerodocumento" class="form-label"><b>Numero de documento</b></label>
+                <input type="number" readonly formControlName="numero_documento" class="form-control" id="numerodocumento" autocomplete="off" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="telefono" class="form-label"><b>Numero de telefono</b></label>
+                <input type="number" formControlName="celular" class="form-control" id="telefono" autocomplete="off" required>
+              </div>
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="apellidos" class="form-label"><b>Apellidos</b></label>
+                <input type="text" class="form-control" formControlName="apellidos" class="form-control" id="apellidos" autocomplete="off" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="facultad" class="form-label"><b>Facultad</b></label>
+                <select  name="" (change)="onChange($event)" class="form-control" formControlName="facultad" id="">
+                  <option [ngValue]="facultad.facultad" *ngFor="let facultad of facultades">{{facultad.facultad}}</option>
+                 </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="correo" class="form-label"><b>Correo</b></label>
+                <input type="email" readonly class="form-control" formControlName="correo" class="form-control" id="correo" autocomplete="off" required>
+              </div>
+
+            </div>
+
+            <div class="col-md-4">
+              <div class="mb-3">
+                <label for="tipodocumento" class="form-label"><b>Tipo de documento</b></label>
+                <select name="" readonly class="form-control" formControlName="tipo_documento" id="">
+                  <option [value]="tipo.tipo_documento" *ngFor="let tipo of tipos">{{tipo.tipo_documento}}</option>
+                 </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="programa" class="form-label"><b>Programa</b></label>
+               <select  name="" class="form-control" formControlName="programa" [disabled]="true"   id="">
+                <option *ngFor="let programa of programas">{{programa.programa}}</option>
+               </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="programa" class="form-label"><b>Estado</b></label>
+                <select name="" class="form-control" formControlName="estado" id="">
+                  <option [value]="estado.estado" *ngFor="let estado of estados">{{estado.estado}}</option>
+                </select>
+              </div>
+              <input type="hidden" formControlName="id_usuario">
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="linea btn bmodal btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="linea btn bmodal btn-success btn-sm">Guardar</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
+
+
+<div class="modal fade modal-lg" id="modalagregar" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Agregar Usuario</b></h1>
+    </div>
+    <div class="modal-body">
+      <form class="row" [formGroup]="agregarEstudiante" (ngSubmit)="agregar()" autocomplete="off" >
+        <div class="col-md-4">
+          <div class="mb-3">
+
+            <label for="roles" class="form-label"><b>Roles</b></label>
+            <select class="form-control" name="id_rol" formControlName="id_rol" id="roles">
+              <option [ngValue]="rol.id" *ngFor="let rol of roles">{{rol.rol}}</option>
+            </select>
+            </div>
+            <div class="mb-3">
+
+              <label for="tipodocumento" class="form-label"><b>Tipo de documento</b></label>
+              <select formControlName="id_tipo_documento" class="form-control" >
+                <option *ngFor="let tipo of tipos" [ngValue]="tipo.id">{{tipo.tipo_documento}}</option>
+               </select>
+            </div>
+
+          <div class="mb-3">
+            <label for="numerodocumento" class="form-label"><b>Numero de documento</b></label>
+            <input type="number" class="form-control" id="numerodocumento" 
+            formControlName="numero_documento"
+            autocomplete="off" required>
+          </div>
+
+         
+
+
+        </div>
+
+        <div class="col-md-4">
+          <div class="mb-3">
+
+            <label for="nombres" class="form-label"><b>Nombres</b></label>
+            <input formControlName="nombres"  type="text" class="form-control" id="nombres" autocomplete="off" required>
+          </div>
+         
+
+          <div class="mb-3">
+            <label for="facultad" class="form-label"><b>Facultad</b></label>
+            <select formControlName="id_facultad" name="facultad" id="facultad" class="form-control"  (change)="onSelect($event)">
+              
+              <option *ngFor="let facultad of facultades" [ngValue]="facultad.id" >{{facultad.facultad}}</option>
+             </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="correo" class="form-label"><b>Correo</b></label>
+            <input formControlName="correo" type="email" class="form-control" class="form-control" id="correo" autocomplete="off" required>
+          </div>
+          <div class="mb-3">
+            <label for="contraseña" class="form-label"><b>Contraseña</b></label>
+            <input formControlName="contraseña" type="password" class="form-control" class="form-control" id="contraseña" autocomplete="off" required>
+          </div>
+
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="mb-3">
+              <label for="apellidos" class="form-label"><b>Apellidos</b></label>
+              <input formControlName="apellidos" type="text" class="form-control" class="form-control" id="apellidos" autocomplete="off" required>
+            </div>
+            
+           
+
+          <div class="mb-3">
+            <label for="programa" class="form-label"><b>Programa</b></label>
+           <select formControlName="id_programa" name="" class="form-control"  id="">
+            
+            <option [ngValue]="programa.id" *ngFor="let programa of programas">{{programa.programa}}</option>
+           
+           </select>
+          </div>
+          <div class="mb-3">
+            <label for="telefono" class="form-label"><b>Numero de telefono</b></label>
+            <input formControlName="celular"  type="number"  class="form-control" id="telefono" autocomplete="off" required>
+          </div>
+
+          
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="linea btn bmodal btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" [disabled]="agregarEstudiante.invalid" class="linea btn bmodal btn-success btn-sm">Guardar</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+</div>
+
+</div>
+
+
+
+<div class="modal fade modal" id="modallistado" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel"><b>Carga Masiva de usuarios</b>
+        </h1>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Salir</button>
+      </div>
+      <div class="modal-body"> 
+        <form class="row"  (ngSubmit)="uploadFile()" enctype="multipart/form-data" >
+          <input type="file" accept=".csv,.xlsx" name="file" (change)="selectFile($event)" class="form-control mb-4"  id="file">
+          <!-- <div class="table-responsive">
+            <nz-table #headeTable [nzData]="estudiantes" [nzPageSize]="4">
+              <thead>
+                <tr>
+                  <th>Nombres</th>
+                  <th>Documento de identificacion</th>
+                  <th>Programa</th>
+                  <th>Asistencia</th>
+                  <th>Observaciones</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr *ngFor="let h of headeTable.data;let i=index">
+                  
+                  <td>{{ h.nombres }} {{h.apellidos}}</td>
+                  <td>{{h.identificacion}}</td>
+                  <td>{{h.programa}}</td>
+                  <td class="text-center">
+                    <input type="checkbox" (change)="changeValue(i)"
+                    [checked]="h.asistencia==1"
+                    formControlName="{{asistenciasArray.at(i)}}" >
+                    
+
+
+                  </td>
+                  
+                  <td><button type="button" nz-button nzType="primary"
+                    data-bs-toggle="modal" data-bs-target="#modalobservaciones"
+                    
+                    >Observaciones</button></td>
+                  <td>
+                    <input type="hidden"  formControlName="{{idUsuarioArray.at(i)}}" [value]="h.id_usuario">
+                   
+                  </td>
+                </tr>
+                
+
+              </tbody>
+              
+            </nz-table>
+
+
+          </div> -->
+
+          <div class="container w-100  d-flex justify-content-center">
+            <button class="btn btn-success" type="submit">Enviar Archivo de excel</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
