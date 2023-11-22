@@ -6,6 +6,7 @@ import { Docente } from 'src/app/shared/interfaces/docente.interface';
 import { tap } from 'rxjs';
 import { EstudianteService } from 'src/app/estudiante/services/estudiante.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-perfil',
@@ -32,6 +33,7 @@ export class PerfilComponent implements OnInit {
       .getDataDocente()
       .pipe(
         tap((docente:any) => {
+          console.log(docente)
           this.contactForm.patchValue({
             nombres: docente.nombres,
             apellidos: docente.apellidos,
@@ -41,8 +43,7 @@ export class PerfilComponent implements OnInit {
             numeroDocumento: docente.numero_documento,
             facultad: docente.facultad,
           });
-          this.foto=docente.foto
-          console.log(this.foto);
+          this.foto='https://fastapi-pwqp-production.up.railway.app/upload/display/'+docente.foto
           
         })
       )
@@ -90,23 +91,16 @@ export class PerfilComponent implements OnInit {
     
     const formData = new FormData();
     formData.append('file', this.selectFile);
-    const token =sessionStorage.getItem('token');
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': 'Bearer ' + token,
-        
-        'Access-Control-Allow-Origin': 'http://localhost:4200',
-        'Access-Control-Allow-Credentials': 'true',
-      }),
-    };
-    const url = 'http://127.0.0.1:5000/upload';
-    this.http
-      .post(url, formData, httpOptions)
+    this.estudianteservice.changeFoto(formData)
       .pipe(
         tap((res: any) => {
           console.log(res);
-          
-          this.foto='http://localhost:5000/static/uploads/'+res.imgPath
+         if(res.error){
+          Swal.fire('error al subir el archivo',res.error,'error')
+         }else {
+          Swal.fire('archivo subido con exito',res.success,'success')
+          this.foto='https://fastapi-pwqp-production.up.railway.app/upload/display/'+res.path
+         }
          
         })
       )

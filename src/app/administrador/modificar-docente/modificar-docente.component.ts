@@ -66,16 +66,16 @@ ngOnInit(): void {
 
   
 
-    // this.service.getFacultadUser().pipe(
-    //   tap((res:any)=>{
-    //     console.log(res)
-    //       this.listOfDisplayData=res
-    //   })
-    // ).subscribe()
+    this.service.getFacultadUser().pipe(
+      tap((res:any)=>{
+        console.log(res)
+          this.listOfDisplayData=res
+      })
+    ).subscribe()
 
     this.service.getEstudiantes().pipe(
       tap((res:any)=>{
-        this.listOfDisplayData=res
+        this.usuarios=res
         console.log(res)
       })
     ).subscribe()

@@ -17,6 +17,19 @@ export class EstudianteService {
   return this.httpClient.get(`${this.url}materia`)
  }
 
+ changeFoto(formdata:any){
+  const token = localStorage.getItem('token');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + token,
+        
+        'Access-Control-Allow-Origin': 'http://localhost:4200',
+        'Access-Control-Allow-Credentials': 'true',
+      }),
+    };
+    return this.httpClient.post(`${this.url}upload/send-photo`,formdata,httpOptions)
+ }
+
   getDataForId():Observable<any>{
     const token=localStorage.getItem('token'); 
     const httpOptions = {
