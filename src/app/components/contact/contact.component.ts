@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { tap } from 'rxjs';
+import { catchError, tap } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Contact } from 'src/app/shared/interfaces/contact.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-contact',
@@ -24,7 +25,7 @@ this.contactForm=this.initForm()
     return this.fb.group({
       nombre:[null,Validators.required],
       apellido:[null,Validators.required],
-      celular:[null,Validators.required],
+      celular:[null,[Validators.minLength(10),Validators.required]],
       correo:[null,Validators.email],
       mensaje:[null,Validators.required]
     })
@@ -39,8 +40,18 @@ this.contactForm=this.initForm()
 
 
         tap((res:any)=>{
-          console.log(res)
-        })
+          if(res.success){
+            Swal.fire("mensaje enviado",res.success,"success")
+          }else{
+            Swal.fire("error enviado",res.error,"error")
+          }
+        }),
+        
+        
+        catchError(async (error) => Swal.fire("Ocurrio algun error","error en el servidor","error")
+
+          )
+
       ).subscribe()
     }
 

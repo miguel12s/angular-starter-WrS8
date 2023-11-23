@@ -12,6 +12,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Router } from '@angular/router';
 import { DocenteService } from 'src/app/docente/services/docente.service';
+import { SwapLeftOutline } from '@ant-design/icons-angular/icons';
 interface DataEstudiante {
   nombre:string,
   apellido:string,
@@ -259,6 +260,8 @@ habilitar(id_usuario:string){
 } 
 
 onSubmit(){
+  this.estudianteForm.get('programa')?.enable();
+
  const estudiante=this.estudianteForm.value
 
  console.log(estudiante)
@@ -301,7 +304,12 @@ agregar(){
   console.log(usuario)
   this.apiservice.insertData(usuarios).pipe(
     tap((res:any)=>{
-      console.log(res)
+      if(res.success){
+        Swal.fire("Crear usuario",res.success,"success")
+      }else{
+        Swal.fire("Error al crear el usuario","el correo o el numero de documento se encuentra en el sistema","error")
+
+      }
     })
   ).subscribe()
 }
