@@ -23,10 +23,22 @@ this.contactForm=this.initForm()
 
   initForm():FormGroup{
     return this.fb.group({
-      nombre:[null,Validators.required],
-      apellido:[null,Validators.required],
-      celular:[null,[Validators.minLength(10),Validators.required]],
-      correo:[null,Validators.email],
+      nombre:[null,[Validators.required,Validators.minLength(10),Validators.maxLength(20)]],
+      apellido:[null,[Validators.required,Validators.minLength(10),Validators.maxLength(20)]],
+      celular:['',
+      [
+        Validators.required,
+        Validators.pattern('^[0-9]*$'),
+        Validators.min(3000000000),
+        Validators.max(3249000000),
+
+      ]
+    ],
+      correo:[null,[
+        Validators.email, 
+        Validators.pattern(".*@(unibarranquilla\\.edu\\.co)$")
+
+    ]],
       mensaje:[null,Validators.required]
     })
 

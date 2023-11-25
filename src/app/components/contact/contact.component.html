@@ -9,6 +9,7 @@
         <div class="mb-4">
           <label for="nombre"><b>Nombre</b></label>
           <input formControlName="nombre" class="form-control" type="text" name="nombre" id="nombre" autocomplete="off" required/>
+          
         </div>
 
         <div class="mb-4">
@@ -25,6 +26,8 @@
         <div class="mb-4">
           <label for="nombre"><b>Correo</b></label>
           <input formControlName="correo" class="form-control" type="email" name="nombre" id="nombre" />
+          <span class="text-danger" *ngIf=" contactForm.get('correo')?.errors">debe terminar
+            @unibarranquilla.edu.co</span>
         </div>
       </div>
 
