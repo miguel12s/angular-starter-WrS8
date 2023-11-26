@@ -19,7 +19,7 @@ export class ChatBotComponent implements AfterViewChecked {
   showModal=false
   messages:Message[]=[
     {
-      message:"hola",
+      message:"",
       state:"enviado"
     }
   ]
