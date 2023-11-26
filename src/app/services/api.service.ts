@@ -19,6 +19,12 @@ export class ApiService {
     return this.httpClient.post(`${this.url}user/create_user`, estudiante)
   }
 
+  getMessage(message:any){
+    return this.httpClient.post(`${this.url}user/send-response-chat`, message)
+
+
+  }
+
   loginService(correo: string, contraseña: string):Observable<any> {
     let login: Object = {
       email: correo,

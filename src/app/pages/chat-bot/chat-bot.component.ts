@@ -1,4 +1,6 @@
-import { AfterViewChecked, Component, ElementRef, ViewChild} from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, ViewChild, inject} from '@angular/core';
+import { tap } from 'rxjs';
+import { ApiService } from 'src/app/services/api.service';
 
 
 interface Message{
@@ -14,14 +16,10 @@ interface Message{
 
 export class ChatBotComponent implements AfterViewChecked {
   @ViewChild('chatbox') private chatboxRef!: ElementRef;
-
+  private service=inject(ApiService)
   
   showModal=false
   messages:Message[]=[
-    {
-      message:"hola",
-      state:"enviado"
-    }
   ]
   message:string=""
   constructor() {
@@ -42,6 +40,17 @@ export class ChatBotComponent implements AfterViewChecked {
   sendMessage(){
     const newMessage:Message={message:this.message,state:"enviado"}
     this.messages.push(newMessage)
+
+    this.service.getMessage(newMessage).pipe(
+      
+      tap((res:any)=>{
+        
+        this.messages.push(res)
+        this.scrollMessage()
+
+      })
+      
+      ).subscribe()
     // this.message=""
   }
 
