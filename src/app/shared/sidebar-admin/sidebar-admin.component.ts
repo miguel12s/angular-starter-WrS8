@@ -15,7 +15,7 @@ constructor(private readonly router:Router){
 }
 logout(){
  
-  sessionStorage.removeItem('admin')
+  localStorage.clear()
   this.router.navigate(['/auth/login']); 
 
 }

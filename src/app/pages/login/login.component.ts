@@ -39,11 +39,7 @@ export class LoginComponent {
     let token = '';
     let id_usuario = 0;
     this.submitted = true;
-    if(form.email==="miguelsuarez@unibarranquilla.edu.co" && form.password==="miguel123"){
-     localStorage.setItem("admin","miguel")
-      this.router.navigate(['/admin'])
-      return
-    }
+    
     if (this.contactForm.valid) {
       this.apiservice
         .loginService(form.email, form.password)
@@ -68,7 +64,17 @@ export class LoginComponent {
 
            localStorage.setItem('rol', response.id_rol);
             localStorage.setItem('id_usuario',response.id_usuario)
-          } else {
+          }else if(response.id_rol==3){
+            this.router.navigate(['/admin']);
+            token = response.token;
+           localStorage.setItem('token', token);
+            LoginComponent.rol=response.id_rol
+
+           localStorage.setItem('rol', response.id_rol);
+            localStorage.setItem('id_usuario',response.id_usuario)
+
+
+          }else {
             this.showAlertError = true;
           }
         }else if(response.id_estado==14){
