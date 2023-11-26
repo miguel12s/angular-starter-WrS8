@@ -12,17 +12,18 @@
     <h2>Chatbot</h2>
     <span class="close-btn material-symbols-outlined">close</span>
   </header>
-  <ul class="chatbox">
+  <ul class="chatbox" #chatbox>
     <li class="chat incoming">
       <span class="material-symbols-outlined">smart_toy</span>
-      <p>Hola 👋<br>¿En que puedo ayudarte?</p>
+      <p>Hola 👋 ¿En qué puedo ayudarte?</p>
     </li>
+  
+    <li *ngFor="let messag of messages" [ngClass]="{
+      'outgoing': messag.state === 'enviado', 
+      'chat incoming': messag.state === 'recieved' }">
 
-    
-    <li class="chatbox outgoing">
-      <p *ngFor="let messag of messages">{{messag.message}}</p>
+      <p>{{messag.message}}</p>
     </li>
-
   </ul>
   <div class="chat-input">
     <textarea [(ngModel)]="message" placeholder="Enter a message..." spellcheck="false" required></textarea>
