@@ -3,7 +3,7 @@
   <form class="row" [formGroup]="contactForm">
     <div class="col-md-4 text-center d-flex align-items-center">
       <div>
-        <img [src]="foto" class="img-fluid w-75" />
+        <img [src]="foto" onerror="this.src=fotoOnError" class="img-fluid w-75" />
         <div class="container-button d-flex">
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
             data-bs-whatever="@mdo">

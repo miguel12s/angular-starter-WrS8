@@ -141,10 +141,10 @@ if(this.contactForm.invalid){return}
       this.apiService.insertData(estudiante).subscribe(
         (response:any) => {
           if(response.error){
-          Swal.fire("Error", "el correo ya se encuentra registrado en el programa ", "error")
+            console.log(response)
+          Swal.fire("Error", "el correo o el numero de documento ya se encuentra registrado en el programa ", "error")
       
-          }else if(response.errorIdentificacion){
-            Swal.fire("Error", "el numero del documento ya se encuentra registrado en el programa ", "error")
+          
           }else{
             this.router.navigate(['/auth/login'])
 

@@ -184,7 +184,7 @@
         
       </div>
       <div class="modal-body">
-        <form class="row">
+        <form class="row" [formGroup]="pasarListaForm" (ngSubmit)="pasarLista()">
           <div class="table-responsive">
             <nz-table #headeTable [nzData]="estudiantes" [nzPageSize]="4">
               <thead>
@@ -196,17 +196,17 @@
                   <th>Observacion</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr *ngFor="let h of headeTable.data;let i=index">
+              <tbody formArrayName="estudiantes">
+                <tr *ngFor="let h of headeTable.data;let i=index" [formGroupName]="i">
 
                   <td>{{ h.nombre_estudiante }}</td>
                   <td>{{ h.numero_documento }}</td>
                   <td>{{ h.programa }}</td>
                   <td><input type="checkbox" (change)="changeValue(i)" [checked]="h.asistencia==1"
-                      formControlName="{{asistenciasArray.at(i)}}" name="asistencia" id="asistencia"></td>
-                  <td><input type="text" (input)="changeInput(i,$event)" formControlName="{{observacionArray.at(i)}}"
+                      formControlName="asistencia" name="asistencia" id="asistencia"></td>
+                  <td><input type="text" (input)="changeInput(i,$event)" formControlName="observacionArray"
                       name="observacion" id="observacion" class="form-control"></td>
-                  <input type="hidden" formControlName="{{idUsuarioArray.at(i)}}" [value]="h.id_usuario">
+                  <input type="hidden" formControlName="id_usuario" [value]="h.id_usuario">
                 </tr>
 
               </tbody>

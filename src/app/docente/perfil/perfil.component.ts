@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./perfil.component.scss'],
 })
 export class PerfilComponent implements OnInit {
+  fotoOnError:string=""
   contactForm!: FormGroup;
   passwordForm!:FormGroup;
   foto!:string
@@ -43,7 +44,9 @@ export class PerfilComponent implements OnInit {
             numeroDocumento: docente.numero_documento,
             facultad: docente.facultad,
           });
-          this.foto='https://fastapi-pwqp-production.up.railway.app/upload/display/'+docente.foto
+          this.fotoOnError = 'https://th.bing.com/th/id/OIP.rIsI3TvodysyTi_2VOGK3gHaHa?w=190&h=190&c=7&r=0&o=5&pid=1.7';
+
+          this.foto=`https://fastapi-pwqp-production.up.railway.app/upload/display/${docente.foto}`|| 'https://th.bing.com/th/id/OIP.rIsI3TvodysyTi_2VOGK3gHaHa?w=190&h=190&c=7&r=0&o=5&pid=1.7'
           
         })
       )

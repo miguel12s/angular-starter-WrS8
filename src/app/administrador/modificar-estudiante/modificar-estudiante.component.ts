@@ -165,7 +165,8 @@ initForm():FormGroup{
     correo:['',Validators.required],
     tipo_documento:['',Validators.required],
     programa:['',Validators.required],
-    estado:['',Validators.required]
+    estado:['',Validators.required],
+    id_usuario:['',Validators.required]
 
 
 

@@ -36,10 +36,8 @@ getFacultades(){
 
 
 get getTipoDocumento():Observable<Object>{
-  const requestOptions = {
-    withCredentials: true,
-  };
-    return this.httpClient.get(`${this.url}tipoDocumento`,requestOptions)
+  
+    return this.httpClient.get(`${this.url}tipoDocumento`)
 
 }
 

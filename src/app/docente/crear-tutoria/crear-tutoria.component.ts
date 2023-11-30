@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
+import {Component, OnInit, inject } from '@angular/core';
 import { DocenteService } from '../services/docente.service';
-import { forkJoin, map, tap } from 'rxjs';
+import { forkJoin, tap } from 'rxjs';
 import { ComponentService } from 'src/app/components/services/components.service';
 import {
   FormArray,
@@ -8,7 +8,6 @@ import {
   FormControl,
   FormGroup,
   Validators,
-  
 } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Facultad } from 'src/app/shared/interfaces/Facultad.interface';
@@ -21,38 +20,35 @@ import { EstudianteService } from 'src/app/estudiante/services/estudiante.servic
   styleUrls: ['./crear-tutoria.component.scss'],
 })
 export class CrearTutoriaComponent implements OnInit {
-
-  private estudianteService=inject(EstudianteService)
-  private fb=inject(FormBuilder)
-  public facultades:Facultad[]=[]
+  private estudianteService = inject(EstudianteService);
+  private fb = inject(FormBuilder);
+  public facultades: Facultad[] = [];
   horaMinima: string = '07:00';
   horaMaxima: string = '20:00';
   horaFinalMinima: string = '08:00';
   horaFinalMaxima: string = '21:00';
   horarioForm!: FormGroup;
   dateNext = '';
-  salones!:any;
+  salones!: any;
   materias: any[] = [];
   sedes: string[] = [];
-  programas!:any;
+  programas!: any;
   data: string[] = [];
   salonesActualizar: string[] = [];
   id_usuario!: number;
-  datosModal: any={}
-horario:any
-estudiantes:any[]=[]
-pasarListaForm!: FormGroup;
-asistencias:any[]=[]
+  datosModal: any = {};
+  horario: any;
+  estudiantes: any[] = [];
+  pasarListaForm!: FormGroup;
+  asistencias: any[] = [];
   constructor(
-  
     private docenteService: DocenteService,
-    private componentService: ComponentService,
+    private componentService: ComponentService
   ) {
     const dateToday = new Date();
     dateToday.setDate(dateToday.getDate() + 1);
 
     this.dateNext = dateToday.toISOString().substring(0, 10);
-    
 
     this.pasarListaForm = this.initPasarListaForm();
     this.horarioForm = this.initForm();
@@ -115,164 +111,148 @@ asistencias:any[]=[]
         }
       });
     //formulario de actualizar
-
   }
-
-  initPasarListaForm(): FormGroup {
-    return this.fb.group({
-      id_usuario: this.fb.array([]),
-      asistencia: this.fb.array([]),
-      id_tutoria: this.fb.array([]),
-      observacion:this.fb.array([])
-    });
-  }
- 
 
   ngOnInit(): void {
     // let id_user=localStorage.getItem("id_usuario")
-    
+
     forkJoin([
       this.docenteService.getSalones(),
       this.docenteService.getHorario(),
       this.componentService.getFacultadesUser(),
-    ]
-      
-    ).subscribe((res:any)=>{
-      console.log(res)
-      this.salones=res[0]
+    ]).subscribe((res: any) => {
+      console.log(res);
+      this.salones = res[0];
       // this.facultades=res[1].resultado
-     this.horario=res[1].resultado
-     this.facultades=res[2].resultado
-    })
-
+      this.horario = res[1].resultado;
+      this.facultades = res[2].resultado;
+    });
   }
-  listado(id_tutoria:string){
 
-    this.idUsuarioArray.clear();
-    this.asistenciasArray.clear();
-    this.docenteService.getListado(id_tutoria).pipe(
-      tap((res:any)=>{
-      
-        console.log(res)
+  initPasarListaForm(): FormGroup {
+    return this.fb.group({
+      estudiantes:this.fb.array([])
+    });
+  }
+
   
-        this.estudiantes=res.resultado
-        console.log(this.estudiantes)
-        this.estudiantes.forEach((estudiante: any) => {
-              this.idUsuarioArray.push(new FormControl(estudiante.id_estudiante));
-              this.asistenciasArray.push(
-                new FormControl(estudiante.asistencia===1)
-              );
-              this.idTutoriaArray.push(
-                new FormControl(estudiante.id_tutoria)
-              );
-              this.observacionArray.push(
-                new FormControl(estudiante.comentario)
-              )
+  listado(id_tutoria: string) {
+   
+    this.docenteService
+      .getListado(id_tutoria)
+      .pipe(
+        tap((res: any) => {
+          console.log(res);
+
+          this.estudiantes = res.resultado;
+          
+          console.log(this.estudiantes);
+          this.estudiantes.forEach((estudiante: any) => {
+            // this.idUsuarioArray.push(new FormControl(estudiante.id_estudiante));
+            // this.asistenciasArray.push(
+            //   new FormControl(estudiante.asistencia === 1)
+            // );
+            // this.idTutoriaArray.push(new FormControl(estudiante.id_tutoria));
+            // this.observacionArray.push(new FormControl(estudiante.comentario));
+
+            const estudianteFormGroup = this.fb.group({
+              id_usuario: estudiante.id_estudiante,
+              asistencia: estudiante.asistencia===1,
+              id_tutoria: estudiante.id_tutoria,
+              observacion:estudiante.comentario
+            });
+            (this.pasarListaForm.get('estudiantes') as FormArray).push(estudianteFormGroup);
+  
+          });
         })
-        console.log(this.pasarListaForm.value)
-  
-        
-      })
-    ).subscribe()
+      )
+      .subscribe();
   }
   get idUsuarioArray() {
     return this.pasarListaForm.get('id_usuario') as FormArray;
   }
-  
+
   get asistenciasArray() {
     return this.pasarListaForm.get('asistencia') as FormArray;
   }
-  
+
   get idTutoriaArray() {
     return this.pasarListaForm.get('id_tutoria') as FormArray;
   }
-  
-  get observacionArray(){
-    return this.pasarListaForm.get('observacion') as FormArray
+
+  get observacionArray() {
+    return this.pasarListaForm.get('observacion') as FormArray;
   }
-  changeValue(index:number){
-    const value=this.pasarListaForm?.value.asistencia.at(index)
-   if(value){
-    
-    this.asistenciasArray.at(index).setValue(false)
-   }else{
-    this.asistenciasArray.at(index).setValue(true)
-  
-   }
+  changeValue(index: number) {
+    const currentValue = this.asistenciasArray.at(index).value;
+    this.asistenciasArray.at(index).setValue(!currentValue);
   }
-  
-  changeInput(index:number,event:any){
-    const observacionFragmento=event.target.value
-    while (this.observacionArray.length <= index) {
-      this.observacionArray.push(this.fb.control(''));
+
+  changeInput(index: number, event: any) {
+    const observacionFragmento = event.target.value;
+    const observacionArray = this.pasarListaForm.get('estudiantes') as FormArray;
+
+    if (observacionArray.at(index)) {
+      observacionArray.at(index).patchValue({observacion: observacionFragmento });
+
     }
-  
-    // Obtiene la observación actual
-    const observacionActual = this.observacionArray.at(index).value;
-  
-    // Agrega el fragmento al final de la observación actual
-    const nuevaObservacion =  observacionFragmento;
-  
-    // Actualiza el valor del control en el FormArray
-    this.observacionArray.at(index).setValue(nuevaObservacion);
   }
-  
-  
-    pasarLista() {
-      this.asistencias=[]
+
+  pasarLista() {
     const estudiantes = this.pasarListaForm?.value;
+    // console.log(estudiantes);
+
+    // for (let index = 0; index < estudiantes.length; index++) {
+    //   console.log(estudiantes[index])
+    //   const id_usuario = estudiantes.id_usuario[index];
+    //   const asistencia = estudiantes.asistencia[index] === false ? 0 : 1;
+    //   const id_tutoria = estudiantes.id_tutoria[index];
+    //   const observacion = estudiantes.observacion[index];
+
+    //   const estudiante = {
+    //     id_usuario: id_usuario,
+    //     asistencia: asistencia,
+    //     id_tutoria: id_tutoria,
+    //     observacion: observacion,
+    //   };
+    //   this.asistencias.push(estudiante);
+    //   console.log(this.asistencias);
+    // }
+    // console.log(this.asistencias)
     console.log(estudiantes)
-  
-    for (let index = 0; index < estudiantes.id_usuario.length; index++) {
-      const id_usuario = estudiantes.id_usuario[index];
-      const asistencia=estudiantes.asistencia[index]===false?0:1
-      const id_tutoria = estudiantes.id_tutoria[index];
-      const observacion=estudiantes.observacion[index]
-  
-      const estudiante={
-        "id_usuario": id_usuario,
-        "asistencia": asistencia,
-        "id_tutoria":id_tutoria,
-        "observacion":observacion
-      }
-      this.asistencias.push(estudiante)
-      console.log(this.asistencias)
-    }
-  this.docenteService.pasarLista(this.asistencias)  
-    
-  
-      
-    }
-  selectedFaculty(event:any){
+    this.docenteService.pasarLista(estudiantes);
+  }
+  selectedFaculty(event: any) {
     const facultad = event.target.value;
-    console.log(facultad)
-    const id_facultad:string=facultad.split(':')[1].trim()
-    
-    console.log(id_facultad)
+    console.log(facultad);
+    const id_facultad: string = facultad.split(':')[1].trim();
+
+    console.log(id_facultad);
     this.docenteService
       .getProgramsForFaculty(id_facultad)
       .pipe(
         tap((res: any) => {
-        console.log(res)
+          console.log(res);
 
-         this.programas=res.resultado})
+          this.programas = res.resultado;
+        })
       )
       .subscribe();
   }
 
-
-  selectedMateria(event:any){
-    const id_facultad:string=this.horarioForm.value.id_facultad.toString()
+  selectedMateria(event: any) {
+    const id_facultad: string = this.horarioForm.value.id_facultad.toString();
     const id_programa = event.target.value;
-    console.log(id_facultad,id_programa)
+    console.log(id_facultad, id_programa);
 
     this.docenteService
-      .getMateriasForPrograms(id_facultad,id_programa)
+      .getMateriasForPrograms(id_facultad, id_programa)
       .pipe(
         tap((res: any) => {
-        console.log(res)
+          console.log(res);
 
-         this.materias=res.resultado})
+          this.materias = res.resultado;
+        })
       )
       .subscribe();
   }
@@ -285,7 +265,7 @@ asistencias:any[]=[]
       hora_final: [null, Validators.required],
       id_programa: [null, Validators.required],
       id_sede: [null, Validators.required],
-      cupos:[null,Validators.required,,this.cuposValidator.bind(this)],
+      cupos: [null, Validators.required, , this.cuposValidator.bind(this)],
       hora_inicial: [null, Validators.required],
       id_materia: [null, Validators.required],
       id_salon: [null, Validators.required],
@@ -293,21 +273,19 @@ asistencias:any[]=[]
     });
   }
 
-  initFormtwo():FormGroup{
+  initFormtwo(): FormGroup {
     return this.fb.group({
-    id_usuario: [null, Validators.required],
-    })
+      id_usuario: [null, Validators.required],
+    });
   }
   onSelect(event: any) {
     const salon = event.target.value;
-    const id_salon=salon.split(':')[1]
-    console.log(id_salon)
+    const id_salon = salon.split(':')[1];
+    console.log(id_salon);
     this.docenteService
       .obtenerCapacidadPorSalon(id_salon)
       .pipe(
         tap((res: any) => {
-        
-
           this.horarioForm.patchValue({
             id_capacidad: res.capacidad,
             id_sede: res.sede,
@@ -318,7 +296,7 @@ asistencias:any[]=[]
   }
 
   onSubmit() {
-    const horario:Horario = this.horarioForm.value;
+    const horario: Horario = this.horarioForm.value;
     this.docenteService
       .crearHorario(horario)
       .pipe(
@@ -327,14 +305,14 @@ asistencias:any[]=[]
           if (res.error) {
             Swal.fire('Error', res.error, 'warning');
             return;
-          }else{
-            Swal.fire('Success',res.success,'success')
+          } else {
+            Swal.fire('Success', res.success, 'success');
           }
           this.docenteService
             .getHorario()
             .pipe(
               tap((res: any) => {
-                this.horario=res.resultado
+                this.horario = res.resultado;
               })
             )
             .subscribe();
@@ -343,92 +321,57 @@ asistencias:any[]=[]
       .subscribe();
   }
 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   getData(id_tutoria: string) {
-    console.log(id_tutoria)
+    console.log(id_tutoria);
     Swal.fire({
-      title: 'Estas seguro que deseas eliminarlo',
+      title: 'Estas seguro que deseas cancelarla',
       text: 'no podra ser revertido',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si,Eliminar',
+      confirmButtonText: 'Si,Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('Eliminado!', 'La tutoria ha sido eliminada.', 'success');
-        this.docenteService.eliminarTutoria(id_tutoria).pipe(
-          tap((res:any)=>{
-            console.log(res)
-            this.docenteService
-          .getHorario()
+        Swal.fire('Cancelada!', 'La tutoria ha sido cancelada.', 'success');
+        this.docenteService
+          .eliminarTutoria(id_tutoria)
           .pipe(
             tap((res: any) => {
               console.log(res);
+              this.docenteService
+                .getHorario()
+                .pipe(
+                  tap((res: any) => {
+                    console.log(res);
 
-              this.horario = res.resultado;
+                    this.horario = res.resultado;
+                  })
+                )
+                .subscribe();
             })
           )
           .subscribe();
-          })
-        ).subscribe()
-        
       }
     });
   }
 
- 
- 
+  descripcion(id_tutoria: any) {
+    this.estudianteService
+      .getHorarioForId(id_tutoria)
+      .pipe(
+        tap((res: any) => {
+          this.datosModal = res;
+        })
+      )
+      .subscribe();
+  }
 
-  
+  cuposValidator(control: any) {
+    const capacidad = this.horarioForm.get('capacidad')?.value;
+    const cupos = control.value;
+    console.log(capacidad, cupos);
 
-  descripcion(id_tutoria:any){
-    this.estudianteService.getHorarioForId(id_tutoria).pipe(
-      tap((res:any)=>{
-        this.datosModal=res
-      })
-    ).subscribe()
-    
-      
-    
-    }
-
-
-
-    cuposValidator(control:any) {
-      const capacidad = this.horarioForm.get('capacidad')?.value;
-      const cupos = control.value;
-      console.log(capacidad,cupos);
-      
-      return cupos <= capacidad ? null : { cuposExcedidos: true };
-    }
-
-
-
-
-
-
+    return cupos <= capacidad ? null : { cuposExcedidos: true };
+  }
 }
