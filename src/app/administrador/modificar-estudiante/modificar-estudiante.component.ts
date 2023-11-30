@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import Swal from 'sweetalert2';
 import { AdminService } from '../services/admin.service';
-import { forkJoin, map, tap } from 'rxjs';
+import { catchError, forkJoin, map, of, tap } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Rol } from 'src/app/shared/interfaces/roles.interface';
 import { Programa } from 'src/app/shared/interfaces/Programa.interface';
@@ -376,13 +376,22 @@ downloadPDF(){
       .getProgramasForFaculty(id_facultad)
       .pipe(
         tap((res: any) => {
-        console.log(res)
-        this.estudianteForm.get('programa')?.enable();
-        this.estudianteForm.patchValue({
-          programa:res.resultado[0].programa
-        })
 
-         this.programas=res.resultado})
+          if(res.status===404){
+            this.programas=[]
+          }else{
+            console.log(res)
+            this.estudianteForm.get('programa')?.enable();
+            this.estudianteForm.patchValue({
+              programa:res.resultado[0].programa
+            })
+    
+             this.programas=res.resultado
+          }
+          
+       }
+       
+      )
       )
       .subscribe();
   }

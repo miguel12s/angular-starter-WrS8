@@ -4,6 +4,7 @@ import { tap } from 'rxjs';
 import { DocenteService } from 'src/app/docente/services/docente.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { R3SelectorScopeMode } from '@angular/compiler';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-notificaciones',
@@ -96,7 +97,12 @@ export class NotificacionesComponent {
     console.log(notification)
     this.service.updateNotification(notification).pipe(
       tap((res:any)=>{
-        console.log(res)
+        if(res.success){
+          Swal.fire('Contestar mensaje',res.success,'success')
+        }else{
+          Swal.fire('Error al contestar mensaje',res.error,'error')
+
+        }
       })
     ).subscribe()
   }
